@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../cubit/map/mapCubit.dart';
 import '../../cubit/map/mapStates.dart';
-import '../componants/connection/no_connection.dart';
 
 class MapScreen extends StatefulWidget {
   const MapScreen({Key? key}) : super(key: key);
@@ -65,7 +63,6 @@ class _MapScreenState extends State<MapScreen> {
                   zoomGesturesEnabled: true,
                   compassEnabled: true,
                   tiltGesturesEnabled: true,
-
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
