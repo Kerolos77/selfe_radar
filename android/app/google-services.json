@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "758711100338",
+    "project_id": "selfe-radar",
+    "storage_bucket": "selfe-radar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:758711100338:android:a335ef2d66825dccf1baab",
+        "android_client_info": {
+          "package_name": "com.example.selfe_radar"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "758711100338-pthv0825tdbfu9ubtrtlgeomnid8fsrn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCTveiuGQqXQGiceHlSf8d5SqlxtaEM1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "758711100338-pthv0825tdbfu9ubtrtlgeomnid8fsrn.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "758711100338-d4p0hbqai4g3hev9n0afvmr5m0opl8rg.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.selfeRadar"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

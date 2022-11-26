@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>758711100338-d4p0hbqai4g3hev9n0afvmr5m0opl8rg.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.758711100338-d4p0hbqai4g3hev9n0afvmr5m0opl8rg</string>
+	<key>API_KEY</key>
+	<string>AIzaSyA489FEN2twwlWNbettcym9WwIXtkrGf8k</string>
+	<key>GCM_SENDER_ID</key>
+	<string>758711100338</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.selfeRadar</string>
+	<key>PROJECT_ID</key>
+	<string>selfe-radar</string>
+	<key>STORAGE_BUCKET</key>
+	<string>selfe-radar.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:758711100338:ios:b65c580bef943e66f1baab</string>
+</dict>
+</plist>
