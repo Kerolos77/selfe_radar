@@ -9,6 +9,8 @@ class UserDataModel {
   late double lat;
   late double lng;
   late double speed;
+  late String nationalID;
+  late String carNumber;
 
   UserDataModel(
       this.name,
@@ -18,7 +20,9 @@ class UserDataModel {
       this.password,
       this.lat,
       this.lng,
-      this.speed);
+      this.speed,
+      this.nationalID,
+      this.carNumber);
 
   UserDataModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];
@@ -29,6 +33,8 @@ class UserDataModel {
     lat = json['lat'];
     lng = json['lng'];
     speed = json['speed'];
+    nationalID = json['nationalID'];
+    carNumber = json['carNumber'];
 
   }
 
@@ -42,7 +48,8 @@ class UserDataModel {
       "lat": lat,
       "lng": lng,
       "speed": speed,
-
+      "nationalID": nationalID,
+      "carNumber": carNumber,
     };
   }
 }

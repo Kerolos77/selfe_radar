@@ -63,6 +63,7 @@ class _MapScreenState extends State<MapScreen> {
                   zoomGesturesEnabled: true,
                   compassEnabled: true,
                   tiltGesturesEnabled: true,
+
                 ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),

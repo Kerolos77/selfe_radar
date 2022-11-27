@@ -2,13 +2,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:selfe_radar/data/firecase/firebase_reposatory.dart';
-import 'package:selfe_radar/ui/home/home.dart';
-import 'package:selfe_radar/ui/registration/login.dart';
+import 'package:selfe_radar/ui/profile/user/user.dart';
 import 'package:selfe_radar/ui/styles/colors.dart';
 import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
-import 'package:selfe_radar/utils/conestant/conestant.dart';
-
-import 'ui/home/mapScreen.dart';
 
 
 Future<void> main() async {
@@ -24,7 +20,7 @@ Future<void> main() async {
   // } else {
   //   widget = const Login();
   // }
-  widget = MapScreen();
+  widget = const UserProfile();
 
   runApp(MyApp(startWidget: widget));
 }

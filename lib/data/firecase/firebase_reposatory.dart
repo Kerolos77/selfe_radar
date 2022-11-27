@@ -1,4 +1,6 @@
 
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,6 +24,7 @@ class FirebaseReposatory {
     required String email,
     required String id,
     required String password,
+    required String nationalID,
   }) async {
     UserDataModel userDataModel = UserDataModel(
       name,
@@ -32,6 +35,8 @@ class FirebaseReposatory {
       0,
       0,
       0,
+      nationalID,
+      "ب ت ع 111"
     );
     return firebase
         .collection('users')
@@ -106,6 +111,11 @@ class FirebaseReposatory {
       'speed': speed,
     });   
   }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserData(){
+    return firebase.collection('users').doc(constUid).get();
+  }
+
   
   void getUserLocation(){
     firebase.collection('users').doc(constUid).get();

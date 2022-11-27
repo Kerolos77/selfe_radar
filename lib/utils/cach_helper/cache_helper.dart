@@ -15,4 +15,5 @@ class CacheHelper {
   static String? getData({required String key}) {
     return prefs.getString(key);
   }
+
 }

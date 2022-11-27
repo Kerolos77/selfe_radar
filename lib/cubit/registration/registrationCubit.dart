@@ -39,7 +39,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         name: name,
         email: email,
         id: id,
-        password: password)
+        password: password,
+        nationalID: '123456789')
         .then((value) {
       emit(CreateSuccessUserState());
     }).catchError((error) {
