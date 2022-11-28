@@ -42,18 +42,17 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-              primarySwatch: primarywihte,
-              appBarTheme: const AppBarTheme(
-                systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarColor: Colors.white,
-                  statusBarIconBrightness: Brightness.dark,
-                ),
-                elevation: 0.0,
-              )),
-          home: hhh(),
-        );
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+                primarySwatch: primarywihte,
+                appBarTheme: const AppBarTheme(
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarColor: Colors.white,
+                    statusBarIconBrightness: Brightness.dark,
+                  ),
+                  elevation: 0.0,
+                )),
+            home: hhh());
       },
     );
   }

@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:selfe_radar/Services/local_notification_services/local_notification_services.dart';
 import 'package:selfe_radar/models/alert/alert_model.dart';
 import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
@@ -14,7 +15,6 @@ class hhh extends StatefulWidget {
 class _hhhState extends State<hhh> {
   late final LocalNotificationServices services;
   static FirebaseFirestore firebase = FirebaseFirestore.instance;
-
 
   @override
   void initState() {
@@ -34,24 +34,12 @@ class _hhhState extends State<hhh> {
     required String preSpeed,
     required String carNumber,
     required String time,
+    required String history,
     required String price,
   }) async {
-
-
-    AlertData alertData = AlertData(
-        name,
-        id,
-        currentSpeed,
-        preSpeed,
-        time,
-        price,
-        nationalID,
-        "ب ت ع 111"
-    );
-    return firebase
-        .collection('Infraction')
-        .doc(id)
-        .set(alertData.toMap());
+    AlertData alertData = AlertData(name, id, currentSpeed, preSpeed, time,
+        history, price, nationalID, "ب ت ع 111");
+    return firebase.collection('Infraction').doc(id).set(alertData.toMap());
   }
 
   @override
@@ -63,9 +51,13 @@ class _hhhState extends State<hhh> {
         children: [
           Center(
             child: ElevatedButton(
-              onPressed: () async{
-                  await services.showNotification(id: 0, title: "Alert", body: """Speed: 66 price : 100 time: ${DateTime.now().toString()}""");
-                  await createAlert(
+              onPressed: () async {
+                await services.showNotification(
+                    id: 0,
+                    title: "Alert",
+                    body:
+                        """Speed: 66 price : 100 time: ${DateTime.now().toString()}""");
+                await createAlert(
                     carNumber: '',
                     name: 'karim',
                     price: 100.toString(),
@@ -73,8 +65,8 @@ class _hhhState extends State<hhh> {
                     currentSpeed: 66.toString(),
                     id: CacheHelper.getData(key: 'user').toString(),
                     nationalID: '12347969540',
-                    time: DateTime.now().toString()
-                  );
+                    time: DateFormat("hh:mm a").format(DateTime.now()).toString(),
+                    history: DateFormat('MM/dd/yyyy').format(DateTime.now()).toString());
               },
               child: Text("notification"),
             ),

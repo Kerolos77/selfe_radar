@@ -6,6 +6,7 @@ class AlertData {
   late String nationalID;
   late String carNumber;
   late String time;
+  late String history;
   late String price;
 
 
@@ -14,6 +15,7 @@ class AlertData {
       this.currentSpeed,
       this.preSpeed,
       this.time,
+      this.history,
       this.price,
       this.nationalID,
       this.carNumber);
@@ -26,6 +28,7 @@ class AlertData {
     nationalID = json['nationalID'];
     carNumber = json['carNumber'];
     time = json['time'];
+    history = json['history'];
     price = json['price'];
   }
 
@@ -39,6 +42,7 @@ class AlertData {
       "nationalID": nationalID,
       "carNumber": carNumber,
       "time": time,
+      "history": history,
     };
   }
 }

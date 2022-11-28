@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:selfe_radar/ui/componants/default_text/default_text.dart';
 
 Widget alert({
@@ -40,6 +41,9 @@ Widget alert({
           alertUnit(name.toString()),
           alertUnit(nationalId.toString()),
           alertUnit(carNumber.toString()),
+          //DateFormat.yMEd().add_jms().format(DateTime.now())
+          alertUnit("time: ${DateFormat("hh:mm a").format(DateTime.now())}"),
+          alertUnit("history: ${DateFormat('MM/dd/yyyy').format(DateTime.now())}"),
           Row(
             children: [
               alertUnit("PreSpeed: $preSpeed", size: 16),
