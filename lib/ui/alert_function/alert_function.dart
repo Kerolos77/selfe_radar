@@ -12,8 +12,6 @@ Widget alert({
   required price,
   required BuildContext context,
 }) {
-  // var width = MediaQuery.of(context).size.width;
-  // var height = MediaQuery.of(context).size.height;
   return Card(
     elevation: 15,
     child: Padding(
