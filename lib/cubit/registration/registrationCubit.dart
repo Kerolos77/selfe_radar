@@ -24,6 +24,8 @@ class RegistrationCubit extends Cubit<RegistrationState> {
 
   bool nameFlag = false;
 
+  bool nationalIdFlag = false;
+
   FirebaseReposatory firebaseReposatory = FirebaseReposatory();
 
   static RegistrationCubit get(context) => BlocProvider.of(context);
@@ -94,10 +96,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     });
   }
 
-  void logout() {
-    firebaseReposatory.logout();
-    emit(LogOutSuccessUserState());
-  }
 
   void changeObscurePassFlag(flag) {
     obscurePassFlag = flag;
@@ -137,6 +135,11 @@ class RegistrationCubit extends Cubit<RegistrationState> {
   void changeNameFlag(flag) {
     nameFlag = flag;
     emit(ChangeNameUserState());
+  }
+
+  void changeNationalIdFlag(flag) {
+    nationalIdFlag = flag;
+    emit(ChangeNationalIdUserState());
   }
 }
 

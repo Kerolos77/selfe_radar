@@ -1,19 +1,49 @@
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:selfe_radar/ui/map/mapScreen.dart';
+import 'package:selfe_radar/ui/profile/user/user.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
 
   Home({Key? key}) : super(key: key);
+
+  @override
+  State<Home> createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  var screens = [
+    const MapScreen(),
+    const UserProfile(),
+  ];
+
+  var screenIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Home'),
+        actions: [
+          IconButton(
+            onPressed: () {
+              setState(() {
+                screenIndex = 1;
+              });
+            },
+            icon: const Icon(CupertinoIcons.profile_circled),
+          ),
+        ],
+        leading: IconButton(
+          onPressed: () {
+            setState(() {
+              screenIndex = 0;
+            });
+          },
+          icon: const Icon(CupertinoIcons.map),
+        ),
       ),
-      body: const Center(
-        child: Text('Home'),
-      ),
+      body: screens[screenIndex],
     );
   }
 }

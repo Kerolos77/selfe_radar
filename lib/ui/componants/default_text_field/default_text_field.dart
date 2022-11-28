@@ -16,6 +16,7 @@ Widget defaultTextFiled(
       GestureTapCallback? onTape,
       FormFieldValidator? validate,
       Color iconColor = Colors.black,
+      // String? text,
     }) =>
     Card(
       shape: RoundedRectangleBorder(
@@ -26,6 +27,7 @@ Widget defaultTextFiled(
       color: Colors.blue.shade50,
       child: TextFormField(
         obscureText: obscure,
+        // initialValue: text,
         focusNode: focusNode,
         controller: control,
         keyboardType: type,

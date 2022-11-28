@@ -11,3 +11,9 @@ class GetUserErrorState extends UserStates {
 
   GetUserErrorState(this.error);
 }
+class ChangeObscurePassFlagUserState extends UserStates {}
+
+class ChangeObscureConfirmFlagUserState extends UserStates {}
+
+class LogOutSuccessUserState extends UserStates {}
+

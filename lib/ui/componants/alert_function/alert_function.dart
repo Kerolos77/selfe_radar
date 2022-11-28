@@ -20,7 +20,7 @@ Widget alert({
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Center(
             child: Column(

@@ -22,7 +22,8 @@ class UserDataModel {
       this.lng,
       this.speed,
       this.nationalID,
-      this.carNumber);
+      this.carNumber
+      );
 
   UserDataModel.fromJson(Map<String, dynamic> json) {
     email = json['email'];

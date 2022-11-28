@@ -25,7 +25,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController emailControl = TextEditingController();
   TextEditingController passwordControl = TextEditingController();
   TextEditingController confirmPasswordControl = TextEditingController();
-  TextEditingController phoneControl = TextEditingController();
+  TextEditingController nationalIDControl = TextEditingController();
   TextEditingController nameControl = TextEditingController();
 
   @override
@@ -37,7 +37,7 @@ class _SignUpState extends State<SignUp> {
           print(state);
           if (state is SignUpErrorUserState) {
             toast(msg: state.error,
-                backColor: Colors.red[20]!,
+                backColor: Colors.black38,
                 textColor: Colors.white);
           }
           if (state is CreateSuccessUserState) {
@@ -63,23 +63,44 @@ class _SignUpState extends State<SignUp> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Image(
-                              image: AssetImage(
-                                'assets/images/Time management.png',
-                              ),
-                              fit: BoxFit.scaleDown,
-                              // height: 150,
-                            ),
+                            // const Image(
+                            //   image: AssetImage(
+                            //     'assets/images/Time management.png',
+                            //   ),
+                            //   fit: BoxFit.scaleDown,
+                            //   // height: 150,
+                            // ),
                             Padding(
                               padding: const EdgeInsets.only(left: 15.0),
-                              child: defaultText(
-                                text: "Welcome",
-                                color: Colors.grey.shade700,
+                              child: Container(
+                                alignment: Alignment.center,
+                                child: defaultText(
+                                  text: "Welcome",
+                                  color: Colors.grey.shade700,
+                                ),
                               ),
                             ),
                             const SizedBox(
                               height: 20,
                             ),
+                            defaultTextFiled(
+                              type: TextInputType.emailAddress,
+                              control: nameControl,
+                              prefixIcon: CupertinoIcons.t_bubble,
+                              hint: 'User Name',
+                              onchange: (value) {
+                                if (!value.isEmpty) {
+                                  registrationCub.changeNameFlag(true);
+                                } else {
+                                  registrationCub.changeNameFlag(false);
+                                }
+                              },
+                            ),
+                            registrationCub.nameFlag
+                                ? const SizedBox(
+                              height: 20,
+                            )
+                                : textRegester(text: 'ex : Ahmed'),
                             defaultTextFiled(
                               type: TextInputType.emailAddress,
                               control: emailControl,
@@ -103,22 +124,22 @@ class _SignUpState extends State<SignUp> {
                                 : textRegester(text: 'ex : example@gmail.com'),
                             defaultTextFiled(
                               type: TextInputType.emailAddress,
-                              control: nameControl,
-                              prefixIcon: CupertinoIcons.t_bubble,
-                              hint: 'User Name',
+                              control: nationalIDControl,
+                              prefixIcon: CupertinoIcons.creditcard,
+                              hint: 'National ID',
                               onchange: (value) {
-                                if (!value.isEmpty) {
-                                  registrationCub.changeNameFlag(true);
+                                if (value.isNotEmpty && value.length == 14) {
+                                  registrationCub.changeNationalIdFlag(true);
                                 } else {
-                                  registrationCub.changeNameFlag(false);
+                                  registrationCub.changeNationalIdFlag(false);
                                 }
                               },
                             ),
-                            registrationCub.nameFlag
+                            registrationCub.nationalIdFlag
                                 ? const SizedBox(
                                     height: 20,
                                   )
-                                : textRegester(text: 'ex : Attendants'),
+                                : textRegester(text: 'ex : 12345678901234'),
                             defaultTextFiled(
                                 type: TextInputType.visiblePassword,
                                 obscure: registrationCub.obscurePassFlag,
@@ -201,20 +222,20 @@ class _SignUpState extends State<SignUp> {
                             const SizedBox(
                               height: 20,
                             ),
-                            ConditionalBuilder(
-                              condition: state is! LoginSuccessUserState,
-                              builder: (context) => defaultButton(
-                                  color: Colors.red,
-                                  isDone: true,
-                                  text: 'Login with Google',
-                                  imagePath: 'assets/images/google.png',
-                                  context: context,
-                                  onPress: () {
-                                    registrationCub.logInWithGoogle();
-                                  }),
-                              fallback: (context) =>
-                              const CupertinoActivityIndicator(),
-                            ),
+                            // ConditionalBuilder(
+                            //   condition: state is! LoginSuccessUserState,
+                            //   builder: (context) => defaultButton(
+                            //       color: Colors.red,
+                            //       isDone: true,
+                            //       text: 'Login with Google',
+                            //       imagePath: 'assets/images/google.png',
+                            //       context: context,
+                            //       onPress: () {
+                            //         registrationCub.logInWithGoogle();
+                            //       }),
+                            //   fallback: (context) =>
+                            //   const CupertinoActivityIndicator(),
+                            // ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -236,7 +257,6 @@ class _SignUpState extends State<SignUp> {
                                       size: 10,
                                       color: Colors.blue),
                                 ),
-
                               ],
                             ),
                           ],

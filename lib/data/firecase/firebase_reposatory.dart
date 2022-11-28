@@ -5,7 +5,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import '../../models/alert/alert_model.dart';
 import '../../models/user/UserDataModel.dart';
+import '../../utils/ID/CreateId.dart';
 import '../../utils/conestant/conestant.dart';
 import 'firebase_options.dart';
 class FirebaseReposatory {
@@ -51,6 +53,32 @@ class FirebaseReposatory {
   }) async {
    return FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
+  }
+
+  Future<void> createAlert({
+    required String name,
+    required String id,
+    required String nationalID,
+    required String currentSpeed,
+    required String preSpeed,
+    required String carNumber,
+    required String time,
+    required String price,
+  }) async {
+    AlertData alertData = AlertData(
+        name,
+        id,
+        currentSpeed,
+        preSpeed,
+        time,
+        price,
+        nationalID,
+        carNumber
+    );
+    return firebase
+        .collection('Infraction')
+        .doc(id)
+        .set(alertData.toMap());
   }
 
   Future<UserCredential> login({

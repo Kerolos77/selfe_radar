@@ -8,7 +8,8 @@ import 'package:rive/rive.dart';
 import 'package:selfe_radar/ui/registration/signup.dart';
 import '../../cubit/registration/registrationCubit.dart';
 import '../../cubit/registration/registrationStates.dart';
-import '../home/mapScreen.dart';
+import '../home/home.dart';
+import '../map/mapScreen.dart';
 import '../../utils/animation_enum.dart';
 import '../../utils/cach_helper/cache_helper.dart';
 import '../componants/connection/no_connection.dart';
@@ -158,7 +159,7 @@ class _LoginState extends State<Login> {
             if (state is LoginSuccessUserState) {
               CacheHelper.putData(key: "user", value: state.uId).then((value) {
                 Navigator.push(
-                    context, MaterialPageRoute(builder: (context) => MapScreen()));
+                    context, MaterialPageRoute(builder: (context) => Home()));
               });
               toast(
                   msg: "you are welcome",
@@ -206,16 +207,16 @@ class _LoginState extends State<Login> {
                                   prefixIcon: CupertinoIcons.mail,
                                   hint: "Email",
                                   onchange: (value) {
-                                    if (value.isNotEmpty &&
-                                        value.length < 16 &&
-                                        !isLookingLeft) {
-                                      addLookLeftController();
+
+                                    if (value.isNotEmpty) {
+                                      if(value.length < 16 && !isLookingLeft){
+                                        addLookLeftController();
+                                      }else if (value.length > 16 && !isLookingRight){
+                                        addLookRightController();
+                                      }
                                       registrationCub.changeLoginUserNameFlag(true);
-                                    } else if (value.isNotEmpty &&
-                                        value.length > 16 &&
-                                        !isLookingRight) {
+                                    }else {
                                       registrationCub.changeLoginUserNameFlag(false);
-                                      addLookRightController();
                                     }
                                   }),
                               registrationCub.loginUserNameFlag
@@ -272,23 +273,23 @@ class _LoginState extends State<Login> {
                                 fallback: (context) =>
                                 const CupertinoActivityIndicator(),
                               ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              ConditionalBuilder(
-                                condition: state is! LoginSuccessUserState,
-                                builder: (context) => defaultButton(
-                                  color: Colors.red,
-                                    isDone: true,
-                                    text: 'Login with Google',
-                                    imagePath: 'assets/images/google.png',
-                                    context: context,
-                                    onPress: () {
-                                      registrationCub.logInWithGoogle();
-                                    }),
-                                fallback: (context) =>
-                                const CupertinoActivityIndicator(),
-                              ),
+                              // const SizedBox(
+                              //   height: 20,
+                              // ),
+                              // ConditionalBuilder(
+                              //   condition: state is! LoginSuccessUserState,
+                              //   builder: (context) => defaultButton(
+                              //     color: Colors.red,
+                              //       isDone: true,
+                              //       text: 'Login with Google',
+                              //       imagePath: 'assets/images/google.png',
+                              //       context: context,
+                              //       onPress: () {
+                              //         registrationCub.logInWithGoogle();
+                              //       }),
+                              //   fallback: (context) =>
+                              //   const CupertinoActivityIndicator(),
+                              // ),
                               const SizedBox(
                                 height: 10,
                               ),

@@ -55,3 +55,5 @@ class ChangeObscurePassFlagUserState extends RegistrationState {}
 class ChangeObscureConfirmFlagUserState extends RegistrationState {}
 
 class ChangeNameUserState extends RegistrationState {}
+
+class ChangeNationalIdUserState extends RegistrationState {}
