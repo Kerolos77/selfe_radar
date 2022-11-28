@@ -12,7 +12,7 @@ class UserCubit extends Cubit<UserStates>{
 
   static UserCubit get(context) => BlocProvider.of(context);
 
-  late Map<String, dynamic> user ;
+   Map<String, dynamic>? user ;
 
   FirebaseReposatory _firebaseReposatory = FirebaseReposatory();
 
@@ -27,8 +27,8 @@ class UserCubit extends Cubit<UserStates>{
   }
 
   void setUserDataInCash(){
-    if(user.isNotEmpty){
-      user.forEach((key, value) {
+    if(user!.isNotEmpty){
+      user!.forEach((key, value) {
         CacheHelper.putData(key: key, value: value);
       });
     }

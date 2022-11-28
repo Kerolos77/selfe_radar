@@ -34,7 +34,7 @@ class _UserProfileState extends State<UserProfile> {
                 child: SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8, right: 8),
-                    child: Column(
+                    child: userCube.user != null ? Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         SizedBox(
@@ -60,8 +60,8 @@ class _UserProfileState extends State<UserProfile> {
                                         height: MediaQuery.of(context).size.width * 0.06,
                                       ),
                                       defaultText(
-                                          text: userCube.user["name"], size: 20),
-                                      carNumber(number: userCube.user["carNumber"]),
+                                          text: userCube.user!["name"], size: 20),
+                                      carNumber(number: userCube.user!["carNumber"]),
                                       // defaultText(
                                       //     text: userCube.user["carNumber"], size: 15),
                                       // Card(
@@ -97,7 +97,7 @@ class _UserProfileState extends State<UserProfile> {
                                       // ),
                                     ],
                                   ),
-                                  IconButton(onPressed: (){}, icon: Icon(Icons.edit))
+                                  IconButton(onPressed: (){}, icon: const Icon(Icons.edit))
                                 ],
                               ),
                             ),
@@ -145,9 +145,8 @@ class _UserProfileState extends State<UserProfile> {
                         SizedBox(
                           height: MediaQuery.of(context).size.height * 0.02,
                         ),
-                        
                       ],
-                    ),
+                    ) : const Center(child: CircularProgressIndicator(),),
                   ),
                 ),
               ),
