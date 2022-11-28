@@ -32,7 +32,7 @@ class _hhhState extends State<hhh> {
                   await services.showNotification(id: 0, title: "Alert", body: """
                   Speed: 66
                   price : 100\n
-                  
+                  time:  ${DateTime.now()}
 """);
               },
               child: Text("notification"),
