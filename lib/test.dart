@@ -31,7 +31,8 @@ class _hhhState extends State<hhh> {
               onPressed: () async{
                   await services.showNotification(id: 0, title: "Alert", body: """
                   Speed: 66
-                  price : 100
+                  price : 100\n
+                  
 """);
               },
               child: Text("notification"),

@@ -46,9 +46,6 @@ class LocalNotificationServices {
             importance: Importance.max,
             priority: Priority.max,
             playSound: true,
-            channelShowBadge: true,
-            enableLights: true,
-            fullScreenIntent: true,
         );
     const DarwinNotificationDetails iosNotificationDetails =
         DarwinNotificationDetails();
