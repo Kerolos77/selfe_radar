@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:intl/intl.dart';
 import '../../models/alert/alert_model.dart';
 import '../../models/user/UserDataModel.dart';
 import '../../utils/ID/CreateId.dart';
@@ -62,7 +63,6 @@ class FirebaseReposatory {
     required String currentSpeed,
     required String preSpeed,
     required String carNumber,
-    required String time,
     required String price,
   }) async {
     AlertData alertData = AlertData(
@@ -70,14 +70,15 @@ class FirebaseReposatory {
         id,
         currentSpeed,
         preSpeed,
-        time,
+        DateFormat("hh:mm a").format(DateTime.now()).toString(),
+        DateFormat('MM/dd/yyyy').format(DateTime.now()).toString(),
         price,
         nationalID,
-        carNumber
-    );
+        carNumber);
     return firebase
         .collection('Infraction')
-        .doc(id)
+        .doc(id).collection('Infractions')
+        .doc(CreateId.createId())
         .set(alertData.toMap());
   }
 

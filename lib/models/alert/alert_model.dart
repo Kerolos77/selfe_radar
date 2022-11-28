@@ -10,7 +10,8 @@ class AlertData {
   late String price;
 
 
-  AlertData(this.name,
+  AlertData(
+      this.name,
       this.id,
       this.currentSpeed,
       this.preSpeed,

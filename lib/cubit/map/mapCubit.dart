@@ -157,7 +157,6 @@ class MapCubit extends Cubit<MapState> {
       currentSpeed: speedMps.toStringAsFixed(0),
       preSpeed: "50",
       carNumber: "$constCarNumber",
-      time: "",
       price: "100 LE",
     ).then((value) {
       emit(SuccessCreateAlertMapState());
