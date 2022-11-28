@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:selfe_radar/Services/local_notification_services/local_notification_services.dart';
 import 'package:selfe_radar/models/alert/alert_model.dart';
+import 'package:selfe_radar/utils/ID/CreateId.dart';
 import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
 
 class hhh extends StatefulWidget {
@@ -39,7 +40,7 @@ class _hhhState extends State<hhh> {
   }) async {
     AlertData alertData = AlertData(name, id, currentSpeed, preSpeed, time,
         history, price, nationalID, "ب ت ع 111");
-    return firebase.collection('Infraction').doc(id).set(alertData.toMap());
+    return firebase.collection('Infraction').doc(id).collection('Infractions').doc(CreateId.createId()).set(alertData.toMap());
   }
 
   @override

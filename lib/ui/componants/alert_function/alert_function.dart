@@ -47,7 +47,7 @@ Widget alert({
           Row(
             children: [
               alertUnit("PreSpeed: $preSpeed", size: 16),
-              Spacer(),
+              const Spacer(),
               alertUnit("current Speed: $currentSpeed",
                   size: 16, color: Colors.red),
             ],
