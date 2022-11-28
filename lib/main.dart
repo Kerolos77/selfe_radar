@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
             home: alert(
                 context: context,
                 currentSpeed: 66,
-                preSpeed: 50,
+                preSpeed: 40,
                 price: 100,
                 name: 'Karim',
                 carNumber: '111 أ ب ج',
