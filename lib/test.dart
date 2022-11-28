@@ -19,6 +19,31 @@ class _hhhState extends State<hhh> {
     super.initState();
   }
 
+  Future<void> createUser({
+    required String name,
+    required String email,
+    required String id,
+    required String password,
+    required String nationalID,
+  }) async {
+    UserDataModel userDataModel = UserDataModel(
+        name,
+        email,
+        id,
+        false,
+        password,
+        0,
+        0,
+        0,
+        nationalID,
+        "ب ت ع 111"
+    );
+    return firebase
+        .collection('users')
+        .doc(id)
+        .set(userDataModel.toMap());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,11 +54,7 @@ class _hhhState extends State<hhh> {
           Center(
             child: ElevatedButton(
               onPressed: () async{
-                  await services.showNotification(id: 0, title: "Alert", body: """
-                  Speed: 66
-                  price : 100\n
-                  time:  ${DateTime.now()}
-""");
+                  await services.showNotification(id: 0, title: "Alert", body: """Speed: 66 price : 100 time: ${DateTime.now().toString()}""");
               },
               child: Text("notification"),
             ),
