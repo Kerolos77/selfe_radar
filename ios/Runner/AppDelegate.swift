@@ -9,6 +9,9 @@ import Flutter
   ) -> Bool {
     GMSServices.provideAPIKey("AIzaSyB-1FmskfNZtYJPsUdf0XE0H0Xd9kAMIO0")
     GeneratedPluginRegistrant.register(with: self)
+    if #available(iOS 10.0, *) {
+      UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+    }
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:selfe_radar/data/firecase/firebase_reposatory.dart';
+import 'package:selfe_radar/test.dart';
 import 'package:selfe_radar/ui/componants/alert_function/alert_function.dart';
 import 'package:selfe_radar/ui/profile/user/user.dart';
 import 'package:selfe_radar/ui/styles/colors.dart';
@@ -41,24 +42,18 @@ class MyApp extends StatelessWidget {
       splitScreenMode: true,
       builder: (context, child) {
         return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-                primarySwatch: primarywihte,
-                appBarTheme: const AppBarTheme(
-                  systemOverlayStyle: SystemUiOverlayStyle(
-                    statusBarColor: Colors.white,
-                    statusBarIconBrightness: Brightness.dark,
-                  ),
-                  elevation: 0.0,
-                )),
-            home: alert(
-                context: context,
-                currentSpeed: 66,
-                preSpeed: 40,
-                price: 100,
-                name: 'Karim',
-                carNumber: '111 أ ب ج',
-                nationalId: '1225753148645'));
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+              primarySwatch: primarywihte,
+              appBarTheme: const AppBarTheme(
+                systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: Colors.white,
+                  statusBarIconBrightness: Brightness.dark,
+                ),
+                elevation: 0.0,
+              )),
+          home: hhh(),
+        );
       },
     );
   }
