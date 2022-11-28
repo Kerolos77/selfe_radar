@@ -1,11 +1,12 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:selfe_radar/data/firecase/firebase_reposatory.dart';
+import 'package:selfe_radar/ui/componants/alert_function/alert_function.dart';
 import 'package:selfe_radar/ui/profile/user/user.dart';
 import 'package:selfe_radar/ui/styles/colors.dart';
 import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
-
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -34,18 +35,31 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-            primarySwatch: primarywihte,
-            appBarTheme: const AppBarTheme(
-              systemOverlayStyle: SystemUiOverlayStyle(
-                statusBarColor: Colors.white,
-                statusBarIconBrightness: Brightness.dark,
-              ),
-              elevation: 0.0,
-            )),
-        home: stWidget);
+    return ScreenUtilInit(
+      designSize: const Size(360, 690),
+      minTextAdapt: true,
+      splitScreenMode: true,
+      builder: (context, child) {
+        return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+                primarySwatch: primarywihte,
+                appBarTheme: const AppBarTheme(
+                  systemOverlayStyle: SystemUiOverlayStyle(
+                    statusBarColor: Colors.white,
+                    statusBarIconBrightness: Brightness.dark,
+                  ),
+                  elevation: 0.0,
+                )),
+            home: alert(
+                context: context,
+                currentSpeed: 66,
+                preSpeed: 50,
+                price: 100,
+                name: 'Karim',
+                carNumber: '111 أ ب ج',
+                nationalId: '1225753148645'));
+      },
+    );
   }
 }
-
