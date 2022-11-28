@@ -1,11 +1,11 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:selfe_radar/cubit/map/mapCubit.dart';
 import 'package:selfe_radar/ui/map/mapScreen.dart';
 import 'package:selfe_radar/ui/profile/user/user.dart';
 
 class Home extends StatefulWidget {
-
   Home({Key? key}) : super(key: key);
 
   @override
@@ -14,7 +14,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   var screens = [
-    const MapScreen(),
+    BlocProvider(
+      create: (BuildContext context) => MapCubit(),
+      child: const MapScreen(),
+    ),
     const UserProfile(),
   ];
 
