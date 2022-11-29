@@ -1,6 +1,7 @@
 
 
 import 'package:bloc/bloc.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selfe_radar/cubit/profile/user/UserStates.dart';
@@ -15,6 +16,7 @@ class UserCubit extends Cubit<UserStates>{
   static UserCubit get(context) => BlocProvider.of(context);
 
    Map<String, dynamic>? user ;
+  List<QueryDocumentSnapshot<Map<String, dynamic>>>? infractionsUserData ;
 
   bool obscurePassFlag = true;
 
@@ -26,6 +28,16 @@ class UserCubit extends Cubit<UserStates>{
     emit(GetUserLoadingState());
     _firebaseReposatory.getUserData().then((value) {
        user = value.data() as Map<String, dynamic>;
+       setUserDataInCash();
+      emit(GetUserSuccessState());
+    }).catchError((error){
+      emit(GetUserErrorState(error.toString()));
+    });
+  }
+  void getUserInfractionsData(){
+    emit(GetUserLoadingState());
+    _firebaseReposatory.getUserInfractionsData().then((querySnapshot) {
+       infractionsUserData = querySnapshot.docs;
        setUserDataInCash();
       emit(GetUserSuccessState());
     }).catchError((error){

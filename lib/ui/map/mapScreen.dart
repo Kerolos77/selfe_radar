@@ -115,7 +115,7 @@ class _MapScreenState extends State<MapScreen> {
                     setState(() {
                       isInfraction = false;
                     });
-                    debugPrint("isInfraction inside seconde if: $isInfraction");
+                    debugPrint("isInfraction inside second if: $isInfraction");
                   }
                 }
               },

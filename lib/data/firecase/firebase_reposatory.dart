@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
+import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
 import '../../models/alert/alert_model.dart';
 import '../../models/user/UserDataModel.dart';
 import '../../utils/ID/CreateId.dart';
@@ -143,6 +144,13 @@ class FirebaseReposatory {
 
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserData(){
     return firebase.collection('users').doc(constUid).get();
+  }
+  Future<QuerySnapshot<Map<String, dynamic>>> getUserInfractionsData(){
+    var d  = firebase.collection('Infraction').doc(CacheHelper.getData(key: 'user')).collection('Infractions').get();
+    d.then((value) {
+      value.docs[0].data()['preSpeed'];
+    });
+    return firebase.collection('Infraction').doc(CacheHelper.getData(key: 'user')).collection('Infractions').get();
   }
 
   

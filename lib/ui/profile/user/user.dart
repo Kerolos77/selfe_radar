@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
@@ -34,11 +33,15 @@ class _UserProfileState extends State<UserProfile> {
           listener: (BuildContext context, UserStates state) {},
           builder: (BuildContext context, UserStates state) {
             UserCubit userCube = UserCubit.get(context);
-              userCube.user?? userCube.getUserData();
+            userCube.user ?? userCube.getUserData();
+
+            userCube.getUserInfractionsData();
+
+            // userCube.getUserInfractionsData();
 
             return ConditionalBuilder(
               condition: userCube.user != null,
-              builder:(context) => Scaffold(
+              builder: (context) => Scaffold(
                 backgroundColor: Colors.white,
                 body: SafeArea(
                   child: SingleChildScrollView(
@@ -58,39 +61,75 @@ class _UserProfileState extends State<UserProfile> {
                                   Column(
                                     children: [
                                       SizedBox(
-                                        height: MediaQuery.of(context).size.width * 0.06,
-                                        width: MediaQuery.of(context).size.width,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.06,
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                       ),
                                       CircleAvatar(
                                         radius: 70,
-                                        backgroundImage: AssetImage(imageFile.path),
+                                        backgroundImage:
+                                            AssetImage(imageFile.path),
                                       ),
                                       SizedBox(
-                                        height: MediaQuery.of(context).size.width * 0.06,
+                                        height:
+                                            MediaQuery.of(context).size.width *
+                                                0.06,
                                       ),
                                       defaultText(
-                                          text: userCube.user!["name"], size: 20),
-                                      carNumber(number: "${userCube.user!["carNumber"]}",),
+                                          text: userCube.user!["name"],
+                                          size: 20),
+                                      carNumber(
+                                        number:
+                                            "${userCube.user!["carNumber"]}",
+                                      ),
                                     ],
                                   ),
-                                  IconButton(onPressed: (){
-                                    userCube.logout();
-                                    CacheHelper.removeData(key: "user");
-                                    CacheHelper.removeData(key: "name");
-                                    CacheHelper.removeData(key: "email");
-                                    CacheHelper.removeData(key: "nationalId");
-                                    CacheHelper.removeData(key: "carNumber");
-                                    Navigator.push(context, MaterialPageRoute(builder: (context) => const Login()));
-                                  }, icon: const Icon(Icons.logout)),
+                                  IconButton(
+                                      onPressed: () {
+                                        userCube.logout();
+                                        CacheHelper.removeData(key: "user");
+                                        CacheHelper.removeData(key: "name");
+                                        CacheHelper.removeData(key: "email");
+                                        CacheHelper.removeData(
+                                            key: "nationalId");
+                                        CacheHelper.removeData(
+                                            key: "carNumber");
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const Login()));
+                                      },
+                                      icon: const Icon(Icons.logout)),
                                   Stack(
                                     alignment: AlignmentDirectional.topStart,
                                     children: [
                                       SizedBox(
-                                        width: MediaQuery.of(context).size.width,
+                                        width:
+                                            MediaQuery.of(context).size.width,
                                       ),
-                                      IconButton(onPressed: (){
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => EditUser(name: userCube.user!["name"], email: userCube.user!["email"], nationalId: userCube.user!["nationalId"], carNumber: userCube.user!["carNumber"],)));
-                                      }, icon: const Icon(Icons.edit)),
+                                      IconButton(
+                                          onPressed: () {
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditUser(
+                                                          name: userCube
+                                                              .user!["name"],
+                                                          email: userCube
+                                                              .user!["email"],
+                                                          nationalId:
+                                                              userCube.user![
+                                                                  "nationalId"],
+                                                          carNumber:
+                                                              userCube.user![
+                                                                  "carNumber"],
+                                                        )));
+                                          },
+                                          icon: const Icon(Icons.edit)),
                                     ],
                                   )
                                 ],
@@ -100,51 +139,33 @@ class _UserProfileState extends State<UserProfile> {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01,
                           ),
-                          alert(
-                            context: context,
-                            currentSpeed: 60,
-                            preSpeed: 50,
-                            name: "kerolo faie",
-                            carNumber: "ب ت ن 121",
-                            nationalId: "123456789",
-                            price: "100 lE" ,
-                                ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.01,
+                          SizedBox (
+                            child: ListView.separated(
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) => alert(
+                                      context: context,
+                                      currentSpeed: userCube.infractionsUserData![index]['currentSpeed'],
+                                      preSpeed:userCube.infractionsUserData![index]['preSpeed'],
+                                      name: userCube.infractionsUserData![index]['name'],
+                                      carNumber: userCube.infractionsUserData![index]['carNumber'],
+                                      nationalId: userCube.infractionsUserData![index]['nationalID'],
+                                      price: userCube.infractionsUserData![index]['price'],
+                                    ),
+                                separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 10),
+                                itemCount: userCube.infractionsUserData!.length),
                           ),
-                          alert(
-                            context: context,
-                            currentSpeed: 60,
-                            preSpeed: 50,
-                            name: "kerolo faie",
-                            carNumber: "ب ت ن 121",
-                            nationalId: "123456789",
-                            price: "100 lE" ,
-                          ),
-                          // ListView.separated(
-                          //       itemBuilder: (context, index) =>
-                          //           alert(
-                          //             context: context,
-                          //             currentSpeed: 60,
-                          //             preSpeed: 50,
-                          //             name: "kerolo faie",
-                          //             carNumber: "ب ت ن 121",
-                          //             nationalId: "123456789",
-                          //             price: "100 lE" ,
-                          //           ),
-                          //       separatorBuilder: (context, index) => const SizedBox(
-                          //         height: 10
-                          //       ),
-                          //       itemCount: 15),
-
                         ],
                       ),
                     ),
                   ),
                 ),
-
-              ) ,
-              fallback: (context) => Container(color: Colors.white,child: const CircularProgressIndicator(),),
+              ),
+              fallback: (context) => Container(
+                color: Colors.white,
+                child: const CircularProgressIndicator(),
+              ),
             );
           }),
     );
