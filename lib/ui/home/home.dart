@@ -5,6 +5,9 @@ import 'package:selfe_radar/cubit/map/mapCubit.dart';
 import 'package:selfe_radar/ui/map/mapScreen.dart';
 import 'package:selfe_radar/ui/profile/user/user.dart';
 
+import '../../utils/conestant/conestant.dart';
+import '../profile/user/edit_user.dart';
+
 class Home extends StatefulWidget {
   Home({Key? key}) : super(key: key);
 
@@ -20,8 +23,7 @@ class _HomeState extends State<Home> {
     ),
     const UserProfile(),
   ];
-
-  var screenIndex = 0;
+  var screenIndex = crruntIndex;
 
   @override
   Widget build(BuildContext context) {

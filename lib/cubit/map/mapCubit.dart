@@ -27,7 +27,7 @@ class MapCubit extends Cubit<MapState> {
 
   double speedMps = 0;
 
-  double preSpeed = 0;
+  double preSpeed = 1;
 
   bool locationButtonFlag = false;
 
@@ -38,6 +38,8 @@ class MapCubit extends Cubit<MapState> {
   Color textSpeedColor = Colors.black;
 
   Location location = Location();
+
+  var zoomLevel = 19.0;
 
   Set<Marker> markers = {}; //markers for google map
 
@@ -101,12 +103,6 @@ class MapCubit extends Cubit<MapState> {
     location.onLocationChanged.listen((LocationData currentLocation) {
       changeLocation(LatLng(currentLocation.latitude!, currentLocation.longitude!),currentLocation.speed??0 *3.6);
       firebaseRepo.saveUserLocation(lat:lat.latitude,lng:lat.longitude,speed:currentLocation.speed??0 *3.6);
-      // if(speedMps >= preSpeed){
-      //     speedColor = Colors.red;
-      //     textSpeedColor = Colors.white;
-      //     createAlert(context);
-      //     sendNotification();
-      // }
       emit(GetMyLocationMapState());
     });
   }
@@ -114,7 +110,6 @@ class MapCubit extends Cubit<MapState> {
   void carSpeed(){
     Geolocator.getPositionStream().
     listen((position) {
-      // changeLocation(LatLng(position.latitude, position.longitude),0);
       print(LatLng(position.latitude, position.longitude));
       print(position.speed);
       speedMps = position.speed;
@@ -128,20 +123,18 @@ class MapCubit extends Cubit<MapState> {
   Future<void> animateCamera() async {
     final GoogleMapController controller = await this.controller.future;
     CameraPosition cameraPosition;
-    controller.getZoomLevel().then((value) {
-       cameraPosition = CameraPosition(
-        target: lat,
-        zoom: value,
-      );
-       controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-    });
+    cameraPosition = CameraPosition(
+      target: lat,
+      zoom: zoomLevel,
+    );
+    controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
 
   void sendNotification(){
     emit(LoadingSendNotificationMapState());
     services.showNotification(id: 0,
         title: "Infraction",
-        body: """Speed: $speedMps \n price : 100 """).then((value){
+        body: """Speed: ${speedMps.toStringAsFixed(0)} \n price : 100 """).then((value){
       emit(SuccessSendNotificationMapState());
     }).catchError((onError){
       emit(ErrorSendNotificationMapState(onError.toString()));

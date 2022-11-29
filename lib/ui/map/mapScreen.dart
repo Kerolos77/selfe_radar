@@ -19,7 +19,8 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     MapCubit mapCub = MapCubit.get(context);
-    return BlocConsumer<MapCubit, MapState>(listener: (context, state) {
+    return BlocConsumer<MapCubit, MapState>
+      (listener: (context, state) {
       print(state);
     }, builder: (context, state) {
       return SafeArea(
@@ -38,6 +39,7 @@ class _MapScreenState extends State<MapScreen> {
               },
               onCameraMove: (CameraPosition position) {
                 mapCub.changeLocationButtonFlag(false);
+                mapCub.zoomLevel = position.zoom;
               },
               onTap: (LatLng latLng) {
                 print(latLng);
@@ -70,10 +72,13 @@ class _MapScreenState extends State<MapScreen> {
                       mapCub.speedMps.toStringAsFixed(0),
                       style: TextStyle(
                         color:
-                            mapCub.speedMps < 35 ? Colors.black : Colors.white,
+                            mapCub.speedMps < mapCub.preSpeed ? Colors.black : Colors.white,
                         fontSize: 25,
                       ),
                     ),
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   FloatingActionButton(
                     onPressed: () {},
@@ -105,8 +110,8 @@ class _MapScreenState extends State<MapScreen> {
                     debugPrint("isInfraction inside first if: $isInfraction");
                   }
                   if (mapCub.speedMps < mapCub.preSpeed && isInfraction) {
-                    // mapCub.speedColor = Colors.red;
-                    // mapCub.textSpeedColor = Colors.white;
+                    mapCub.speedColor = Colors.white;
+                    mapCub.textSpeedColor = Colors.black;
                     setState(() {
                       isInfraction = false;
                     });
@@ -118,111 +123,7 @@ class _MapScreenState extends State<MapScreen> {
             )
           ],
         ),
-        // StreamBuilder(
-        //   stream: FirebaseReposatory.firebase.collection("users").get().asStream(),
-        //   builder: (context, snapshot) {
-        //     return snapshot.hasData ?Stack(
-        //   alignment: AlignmentDirectional.bottomEnd,
-        //   children:[
-        //             GoogleMap(
-        //               initialCameraPosition: CameraPosition(
-        //                 target: LatLng(snapshot.data!.docs[1].data()["lat"], snapshot.data!.docs[1].data()["lng"]),
-        //                 zoom: 19,
-        //               ),
-        //               onMapCreated: (GoogleMapController controller) {
-        //                 mapCub.controller.complete(controller);
-        //                 mapCub.getMyLocation();
-        //                 mapCub.getMyLocationUpDate();
-        //               },GoogleMap
-        //               // myLocationEnabled: true,
-        //               // myLocationButtonEnabled: true,
-        //      //         FloatingActionButton(
-        //           onPressed: () {
-        //           },
-        //           backgroundColor: mapCub.speedColor,
-        //           child: Text(
-        //             snapshot.data!.docs[1].data()["speed"].toStringAsFixed(0),
-        //             style: const TextStyle(
-        //               color: Colors.black,
-        //               fontSize: 30,
-        //             ),
-        //           ),          markers:<Marker>{
-        //                   for(var i in snapshot.data!.docs)
-        //                     Marker(
-        //                       markerId: MarkerId("id"),
-        //                       position: LatLng(i.data()["lat"], i.data()["lng"]),
-        //                       icon:constUid == i.data()["id"] ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue) : BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
-        //                     ),
-        //               },
-        //               onCameraMove: (CameraPosition position) {
-        //                 mapCub.changeLocationButtonFlag(false);
-        //               },
-        //               buildingsEnabled: true,
-        //               mapToolbarEnabled: true,
-        //               mapType: MapType.normal,
-        //               onTap: (LatLng latLng) {
-        //                 print(latLng);
-        //                 mapCub.changeLocation(latLng);
-        //                 mapCub.changeLocationButtonFlag(false);
-        //               },
-        //               rotateGesturesEnabled: true,
-        //               scrollGesturesEnabled: true,
-        //               zoomControlsEnabled: false,
-        //             ),
-        //             Column(
-        //       mainAxisAlignment: MainAxisAlignment.end,
-        //       children: [
-        //         // FloatingActionButton(
-        //         //   mini: true,
-        //         //   onPressed: () {
-        //         //     mapCub.getMyLocation();
-        //         //     mapCub.changeLocationButtonFlag(true);
-        //         //   },
-        //         //   backgroundColor: Colors.blue.shade200.withOpacity(0.5),
-        //         //   child: mapCub.locationButtonFlag
-        //         //       ? const Icon(
-        //         //     Icons.my_location,
-        //         //     color: Colors.blue,
-        //         //   )
-        //         //       : const Icon(
-        //         //     Icons.location_searching,
-        //         //     color: Colors.black,
-        //         //   ),
-        //         // ),
-        //         FloatingActionButton(
-        //           onPressed: () {
-        //           },
-        //           backgroundColor: mapCub.speedColor,
-        //           child: Text(
-        //             snapshot.data!.docs[1].data()["speed"].toStringAsFixed(0),
-        //             style: const TextStyle(
-        //               color: Colors.black,
-        //               fontSize: 30,
-        //             ),
-        //           ),
-        //         ),
-        //       ],
-        //     ),
-        //   ],
-        // ) : const Center(child: CircularProgressIndicator()
-        //     );
-        //   },
-        // ),
       );
     });
   }
-
-// Widget updateSpeed() {
-//   return BlocListener<MapCubit, MapState>(
-//     listener: (context, state) {
-//       if(mapCub.speedMps >= preSpeed){
-//           speedColor = Colors.red;
-//           textSpeedColor = Colors.white;
-//           createAlert(context);
-//           sendNotification();
-//       }
-//     },
-//     child: const SizedBox.shrink(),
-//   );
-// }
 }

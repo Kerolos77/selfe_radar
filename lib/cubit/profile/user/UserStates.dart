@@ -6,6 +6,8 @@ class GetUserLoadingState extends UserStates {}
 
 class GetUserSuccessState extends UserStates {}
 
+class GetUserCachedSuccessState extends UserStates {}
+
 class GetUserErrorState extends UserStates {
   final String error;
 

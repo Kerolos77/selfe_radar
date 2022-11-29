@@ -6,15 +6,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:selfe_radar/ui/componants/toast/toast.dart';
+import 'package:selfe_radar/ui/profile/user/user.dart';
 
 import '../../../cubit/profile/user/UserCubit.dart';
 import '../../../cubit/profile/user/UserStates.dart';
-import '../../../utils/conestant/conestant.dart';
 import '../../componants/default_text/default_text.dart';
 import '../../componants/default_text_field/default_text_field.dart';
 
 class EditUser extends StatefulWidget {
-  const EditUser({Key? key}) : super(key: key);
+  EditUser({Key? key, required name,required email,required nationalId,required carNumber}) : super(key: key);
 
   @override
   State<EditUser> createState() => _EditUserState();
@@ -38,7 +38,8 @@ class _EditUserState extends State<EditUser> {
             listener: (BuildContext context, UserStates state) {},
             builder: (BuildContext context, UserStates state) {
               UserCubit userCube = UserCubit.get(context);
-              return Scaffold(
+              return
+                Scaffold(
                 backgroundColor: Colors.white,
                 body: SafeArea(
                   child: SingleChildScrollView(
@@ -162,7 +163,13 @@ class _EditUserState extends State<EditUser> {
                                                 width:
                                                 MediaQuery.of(context).size.width * 0.33,
                                                 child: MaterialButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                                const UserProfile()));
+                                                  },
                                                   child: defaultText(
                                                     text: 'Cancel',
                                                     color: Colors.black45,
@@ -184,7 +191,13 @@ class _EditUserState extends State<EditUser> {
                                                 width:
                                                 MediaQuery.of(context).size.width * 0.33,
                                                 child: MaterialButton(
-                                                  onPressed: () {},
+                                                  onPressed: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        MaterialPageRoute(
+                                                            builder: (context) =>
+                                                            const UserProfile()));
+                                                  },
                                                   child: defaultText(text: 'Save'),
                                                 ),
                                               ),

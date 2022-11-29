@@ -17,6 +17,7 @@ Widget alert({
   // var height = MediaQuery.of(context).size.height;
   return Card(
     elevation: 15,
+    color: Colors.red.shade100,
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12),
       child: Column(
@@ -32,18 +33,29 @@ Widget alert({
                 SizedBox(
                   height: 5.h,
                 ),
-                Center(
-                  child: defaultText(text: 'Alert', color: Colors.red),
-                ),
+                // Center(
+                //   child: defaultText(text: 'Alert', color: Colors.red),
+                // ),
               ],
             ),
           ),
-          alertUnit(name.toString()),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              alertUnit(name.toString()),
+              alertUnit(carNumber.toString()),
+            ],
+          ),
+
           alertUnit(nationalId.toString()),
-          alertUnit(carNumber.toString()),
-          //DateFormat.yMEd().add_jms().format(DateTime.now())
-          alertUnit("time: ${DateFormat("hh:mm a").format(DateTime.now())}"),
-          alertUnit("history: ${DateFormat('MM/dd/yyyy').format(DateTime.now())}"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              alertUnit(DateFormat("hh:mm a").format(DateTime.now())),
+              alertUnit(DateFormat('MM/dd/yyyy').format(DateTime.now())),
+            ],
+          ),
+
           Row(
             children: [
               alertUnit("PreSpeed: $preSpeed", size: 16),
@@ -59,7 +71,7 @@ Widget alert({
   );
 }
 
-Widget alertUnit(text, {double size = 20.0, Color? color}) {
+Widget alertUnit(text, {double size = 15.0, Color? color}) {
   return Column(
     children: [
       SizedBox(

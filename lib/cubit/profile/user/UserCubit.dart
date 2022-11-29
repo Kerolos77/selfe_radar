@@ -1,6 +1,7 @@
 
 
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selfe_radar/cubit/profile/user/UserStates.dart';
 import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
@@ -26,7 +27,6 @@ class UserCubit extends Cubit<UserStates>{
     _firebaseReposatory.getUserData().then((value) {
        user = value.data() as Map<String, dynamic>;
        setUserDataInCash();
-       getUserDataFromCash();
       emit(GetUserSuccessState());
     }).catchError((error){
       emit(GetUserErrorState(error.toString()));
@@ -40,12 +40,11 @@ class UserCubit extends Cubit<UserStates>{
     }
   }
   void getUserDataFromCash(){
-    emit(GetUserLoadingState());
-      constName= CacheHelper.getData(key: 'name');
-      constEmail=CacheHelper.getData(key: 'email');
+      constName = CacheHelper.getData(key: 'name');
+      constEmail = CacheHelper.getData(key: 'email');
       constNationalId = CacheHelper.getData(key: 'nationalID');
       constCarNumber = CacheHelper.getData(key: 'carNumber');
-    emit(GetUserSuccessState());
+    emit(GetUserCachedSuccessState());
   }
 
 

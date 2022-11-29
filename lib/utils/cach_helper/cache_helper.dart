@@ -16,4 +16,8 @@ class CacheHelper {
     return prefs.getString(key);
   }
 
+  static void removeData({required String key}) {
+    prefs.remove(key);
+  }
+
 }
