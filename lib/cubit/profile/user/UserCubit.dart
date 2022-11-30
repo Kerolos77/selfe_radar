@@ -34,6 +34,7 @@ class UserCubit extends Cubit<UserStates>{
       emit(GetUserErrorState(error.toString()));
     });
   }
+
   void getUserInfractionsData(){
     emit(GetUserLoadingState());
     _firebaseReposatory.getUserInfractionsData().then((querySnapshot) {
@@ -53,7 +54,7 @@ class UserCubit extends Cubit<UserStates>{
   }
   void getUserDataFromCash(){
       constName = CacheHelper.getData(key: 'name');
-      constEmail = CacheHelper.getData(key: 'email');
+      // constEmail = CacheHelper.getData(key: 'email');
       constNationalId = CacheHelper.getData(key: 'nationalID');
       constCarNumber = CacheHelper.getData(key: 'carNumber');
     emit(GetUserCachedSuccessState());

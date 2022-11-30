@@ -29,6 +29,7 @@ class _AdminProfileState extends State<AdminProfile> {
   List<Map<String, dynamic>> lsas = [];
 
   getAllInfra() async {
+    lsas = [];
     await FirebaseFirestore.instance
         .collectionGroup('Infraction')
         .get()
@@ -67,26 +68,7 @@ class _AdminProfileState extends State<AdminProfile> {
 
             return RefreshIndicator(
               onRefresh: () async{
-                  await FirebaseFirestore.instance
-                      .collectionGroup('Infraction')
-                      .get()
-                      .then((querySnapshot) {
-                    for (var element in querySnapshot.docs) {
-                      FirebaseFirestore.instance
-                          .collection('Infraction')
-                          .doc(element.id)
-                          .collection('Infractions')
-                          .get()
-                          .then((value) {
-                        for (var element2 in value.docs) {
-
-                          setState(() {
-                            lsas.add(element2.data());
-                          });
-                        }
-                      });
-                    }
-                  });
+                getAllInfra();
               },
               child: Scaffold(
                 backgroundColor: Colors.white,

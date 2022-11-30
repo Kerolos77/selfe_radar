@@ -27,9 +27,10 @@ class FirebaseReposatory {
     required String id,
     required String password,
     required String nationalID,
+    required String carNumber,
   }) async {
     UserDataModel userDataModel = UserDataModel(
-        name, email, id, false, password, 0, 0, 0, nationalID, "ب ت ع 111");
+        name, email, id, false, password, 0, 0, 0, nationalID, carNumber);
     return firebase.collection('users').doc(id).set(userDataModel.toMap());
   }
 

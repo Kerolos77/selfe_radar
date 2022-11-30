@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selfe_radar/data/firecase/firebase_reposatory.dart';
+import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
 import '../../models/user/UserDataModel.dart';
 import '../../utils/conestant/conestant.dart';
 import 'registrationStates.dart';
@@ -35,14 +36,18 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required String email,
     required String id,
     required String password,
+    required String nationalID,
+    required String carNumber,
   }) async {
     emit(CreateLoadingUserState());
-    await firebaseReposatory.createUser(
-        name: name,
-        email: email,
-        id: id,
-        password: password,
-        nationalID: '123456789')
+    await firebaseReposatory
+        .createUser(
+            name: name,
+            email: email,
+            id: id,
+            password: password,
+            nationalID: nationalID,
+            carNumber: carNumber)
         .then((value) {
       emit(CreateSuccessUserState());
     }).catchError((error) {
@@ -55,18 +60,23 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required String name,
     required String email,
     required String password,
+    required String nationalID,
+    required String carNumber,
   }) {
     emit(SignUpLoadingUserState());
-    firebaseReposatory.signUp(
+    firebaseReposatory
+        .signUp(
       name: name,
       email: email,
       password: password,
-    ).then((value) {
+    )
+        .then((value) {
       createUser(
           email: email,
           name: name,
           id: value.user!.uid,
-          password: password);
+          nationalID: nationalID,
+          password: password,carNumber: carNumber);
     }).catchError((error) {
       emit(SignUpErrorUserState(error.toString()));
     });
@@ -77,25 +87,40 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     required String password,
   }) {
     emit(LoginLoadingUserState());
-    firebaseReposatory.login(email: email, password: password)
-        .then((value) {
+    firebaseReposatory.login(email: email, password: password).then((value) {
       constUid = value.user!.uid;
-      emit(LoginSuccessUserState(value.user!.uid));
-    }).catchError((error) {
-      emit(LoginErrorUserState(error.toString()));
-    });
-  }
-  void logInWithGoogle(){
-    emit(LoginLoadingUserState());
-    firebaseReposatory.loginInWithGoogle().then((value) {
-      constUid = value.user!.uid;
-      createUser(name: value.user!.displayName??"no name", email: value.user!.email??"no email", id: value.user!.uid, password:"null" );
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(constUid)
+          .get()
+          .then((value) {
+        CacheHelper.saveData(key: 'name', value: value.data()!['name']);
+        CacheHelper.saveData(
+            key: 'nationalID', value: value.data()!['nationalID']);
+        CacheHelper.saveData(
+            key: 'carNumber', value: value.data()!['carNumber']);
+      });
       emit(LoginSuccessUserState(value.user!.uid));
     }).catchError((error) {
       emit(LoginErrorUserState(error.toString()));
     });
   }
 
+  void logInWithGoogle({required String nationalID,required String carNumber}) {
+    emit(LoginLoadingUserState());
+    firebaseReposatory.loginInWithGoogle().then((value) {
+      constUid = value.user!.uid;
+      createUser(
+          name: value.user!.displayName ?? "no name",
+          email: value.user!.email ?? "no email",
+          id: value.user!.uid,
+          password: "null",
+          nationalID: nationalID,carNumber: carNumber);
+      emit(LoginSuccessUserState(value.user!.uid));
+    }).catchError((error) {
+      emit(LoginErrorUserState(error.toString()));
+    });
+  }
 
   void changeObscurePassFlag(flag) {
     obscurePassFlag = flag;
@@ -142,4 +167,3 @@ class RegistrationCubit extends Cubit<RegistrationState> {
     emit(ChangeNationalIdUserState());
   }
 }
-

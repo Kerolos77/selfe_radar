@@ -27,6 +27,7 @@ class _SignUpState extends State<SignUp> {
   TextEditingController confirmPasswordControl = TextEditingController();
   TextEditingController nationalIDControl = TextEditingController();
   TextEditingController nameControl = TextEditingController();
+  TextEditingController carNumberControl = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -141,6 +142,15 @@ class _SignUpState extends State<SignUp> {
                                   )
                                 : textRegester(text: 'ex : 12345678901234'),
                             defaultTextFiled(
+                              type: TextInputType.text,
+                              control: carNumberControl,
+                              prefixIcon: CupertinoIcons.creditcard,
+                              hint: 'Car Number',
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            defaultTextFiled(
                                 type: TextInputType.visiblePassword,
                                 obscure: registrationCub.obscurePassFlag,
                                suffixIcon: registrationCub.obscurePassFlag
@@ -213,7 +223,9 @@ class _SignUpState extends State<SignUp> {
                                       registrationCub.signUp(
                                           name: nameControl.text,
                                           email: emailControl.text,
-                                          password: passwordControl.text);
+                                          password: passwordControl.text,
+                                          nationalID: nationalIDControl.text,carNumber: carNumberControl.text
+                                      );
                                     }
                                   }),
                               fallback: (context) =>
