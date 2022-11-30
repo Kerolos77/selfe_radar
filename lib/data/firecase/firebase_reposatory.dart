@@ -145,12 +145,21 @@ class FirebaseReposatory {
   Future<DocumentSnapshot<Map<String, dynamic>>> getUserData(){
     return firebase.collection('users').doc(constUid).get();
   }
+
+  Future<DocumentSnapshot<Map<String, dynamic>>> getAdminData(){
+    return firebase.collection('users').doc(constUid).get();
+  }
+
   Future<QuerySnapshot<Map<String, dynamic>>> getUserInfractionsData(){
     var d  = firebase.collection('Infraction').doc(CacheHelper.getData(key: 'user')).collection('Infractions').get();
     d.then((value) {
       value.docs[0].data()['preSpeed'];
     });
     return firebase.collection('Infraction').doc(CacheHelper.getData(key: 'user')).collection('Infractions').get();
+  }
+
+  Future<QuerySnapshot<Map<String, dynamic>>> getAdminInfractionsData(){
+    return firebase.collection('Infraction').get();
   }
 
   

@@ -5,41 +5,46 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:selfe_radar/cubit/profile/user/UserCubit.dart';
-import 'package:selfe_radar/cubit/profile/user/UserStates.dart';
+import 'package:intl/intl.dart';
+import 'package:selfe_radar/cubit/profile/admin/AdminCubit.dart';
+import 'package:selfe_radar/cubit/profile/admin/AdminStates.dart';
+import 'package:selfe_radar/utils/conestant/conestant.dart';
 import '../../../utils/cach_helper/cache_helper.dart';
 import '../../componants/alert_function/alert_function.dart';
-import '../../componants/car_number/CarNumber.dart';
 import '../../componants/default_text/default_text.dart';
 import '../../registration/login.dart';
-import 'edit_user.dart';
+import 'edit_admin.dart';
 
-class UserProfile extends StatefulWidget {
-  const UserProfile({Key? key}) : super(key: key);
+class AdminProfile extends StatefulWidget {
+  const AdminProfile({Key? key}) : super(key: key);
 
   @override
-  State<UserProfile> createState() => _UserProfileState();
+  State<AdminProfile> createState() => _AdminProfileState();
 }
 
-class _UserProfileState extends State<UserProfile> {
+class _AdminProfileState extends State<AdminProfile> {
   late File imageFile = File('assets/images/Profile Image.png');
+  
+dynamic lsas;
+
+
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => UserCubit(),
-      child: BlocConsumer<UserCubit, UserStates>(
-          listener: (BuildContext context, UserStates state) {},
-          builder: (BuildContext context, UserStates state) {
-            UserCubit userCube = UserCubit.get(context);
-            userCube.user ?? userCube.getUserData();
+      create: (BuildContext context) => AdminCubit(),
+      child: BlocConsumer<AdminCubit, AdminStates>(
+          listener: (BuildContext context, AdminStates state) {},
+          builder: (BuildContext context, AdminStates state) {
+            AdminCubit AdminCube = AdminCubit.get(context);
+            AdminCube.Admin ?? AdminCube.getAdminData();
 
-            userCube.getUserInfractionsData();
+            lsas = AdminCube.getAdminInfractionsData();
 
-            // userCube.getUserInfractionsData();
+            // AdminCube.getAdminInfractionsData();
 
             return ConditionalBuilder(
-              condition: userCube.user != null,
+              condition: AdminCube.Admin != null,
               builder: (context) => Scaffold(
                 backgroundColor: Colors.white,
                 body: SafeArea(
@@ -77,18 +82,19 @@ class _UserProfileState extends State<UserProfile> {
                                                 0.06,
                                       ),
                                       defaultText(
-                                          text: userCube.user!["name"],
+                                          // text: AdminCube.Admin!["name"],
+                                          text: "Admin",
                                           size: 20),
-                                      carNumber(
-                                        number:
-                                            "${userCube.user!["carNumber"]}",
-                                      ),
+                                      // carNumber(
+                                      //   number:
+                                      //       "${AdminCube.Admin!["carNumber"]}",
+                                      // ),
                                     ],
                                   ),
                                   IconButton(
                                       onPressed: () {
-                                        userCube.logout();
-                                        CacheHelper.removeData(key: "user");
+                                        AdminCube.logout();
+                                        CacheHelper.removeData(key: "Admin");
                                         CacheHelper.removeData(key: "name");
                                         CacheHelper.removeData(key: "email");
                                         CacheHelper.removeData(
@@ -115,16 +121,16 @@ class _UserProfileState extends State<UserProfile> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        EditUser(
-                                                          name: userCube
-                                                              .user!["name"],
-                                                          email: userCube
-                                                              .user!["email"],
+                                                        EditAdmin(
+                                                          name: AdminCube
+                                                              .Admin!["name"],
+                                                          email: AdminCube
+                                                              .Admin!["email"],
                                                           nationalId:
-                                                              userCube.user![
+                                                              AdminCube.Admin![
                                                                   "nationalId"],
                                                           carNumber:
-                                                              userCube.user![
+                                                              AdminCube.Admin![
                                                                   "carNumber"],
                                                         )));
                                           },
@@ -138,22 +144,30 @@ class _UserProfileState extends State<UserProfile> {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01,
                           ),
-                          SizedBox (
+                          SizedBox(
                             child: ListView.separated(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) => alert(
-                                      context: context,
-                                      currentSpeed: userCube.infractionsUserData![index]['currentSpeed'],
-                                      preSpeed:userCube.infractionsUserData![index]['preSpeed'],
-                                      name: userCube.infractionsUserData![index]['name'],
-                                      carNumber: userCube.infractionsUserData![index]['carNumber'],
-                                      nationalId: userCube.infractionsUserData![index]['nationalID'],
-                                      price: userCube.infractionsUserData![index]['price'],
+                                  context: context,
+                                  currentSpeed: lsas[index]['currentSpeed'],
+                                  preSpeed:lsas[index]['preSpeed'],
+                                  name: lsas[index]['name'],
+                                  carNumber: lsas[index]['carNumber'],
+                                  nationalId: lsas[index]['nationalID'],
+                                  price: lsas[index]['price'],
                                     ),
+                                // itemBuilder: (context, index) => userCard(
+                                //     name: AdminCube.infractionsAdminData![index]
+                                //         .data()['name'],
+                                //     nationalId: AdminCube
+                                //         .infractionsAdminData![index]
+                                //         .data()['nationalID'],
+                                //     context: context),
                                 separatorBuilder: (context, index) =>
                                     const SizedBox(height: 10),
-                                itemCount: userCube.infractionsUserData!.length),
+                                itemCount:
+                                lsas.length),
                           ),
                         ],
                       ),
@@ -167,6 +181,27 @@ class _UserProfileState extends State<UserProfile> {
               ),
             );
           }),
+    );
+  }
+
+  Widget userCard({
+    name,
+    nationalId,
+    required BuildContext context,
+  }) {
+    return Card(
+      elevation: 15,
+      color: Colors.red.shade100,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            alertUnit(name.toString()),
+            alertUnit(nationalId.toString()),
+          ],
+        ),
+      ),
     );
   }
 
