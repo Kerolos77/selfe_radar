@@ -28,7 +28,7 @@ class UserCubit extends Cubit<UserStates>{
     emit(GetUserLoadingState());
     _firebaseReposatory.getUserData().then((value) {
        user = value.data() as Map<String, dynamic>;
-       setUserDataInCash();
+       // setUserDataInCash();
       emit(GetUserSuccessState());
     }).catchError((error){
       emit(GetUserErrorState(error.toString()));
@@ -38,7 +38,7 @@ class UserCubit extends Cubit<UserStates>{
     emit(GetUserLoadingState());
     _firebaseReposatory.getUserInfractionsData().then((querySnapshot) {
        infractionsUserData = querySnapshot.docs;
-       setUserDataInCash();
+       // setUserDataInCash();
       emit(GetUserSuccessState());
     }).catchError((error){
       emit(GetUserErrorState(error.toString()));

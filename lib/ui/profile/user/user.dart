@@ -138,23 +138,23 @@ class _UserProfileState extends State<UserProfile> {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01,
                           ),
-                          SizedBox (
+                          userCube.infractionsUserData !=null? SizedBox (
                             child: ListView.separated(
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) => alert(
                                       context: context,
-                                      currentSpeed: userCube.infractionsUserData![index]['currentSpeed'],
-                                      preSpeed:userCube.infractionsUserData![index]['preSpeed'],
-                                      name: userCube.infractionsUserData![index]['name'],
-                                      carNumber: userCube.infractionsUserData![index]['carNumber'],
-                                      nationalId: userCube.infractionsUserData![index]['nationalID'],
-                                      price: userCube.infractionsUserData![index]['price'],
+                                      currentSpeed: userCube.infractionsUserData![index].data()['currentSpeed'],
+                                      preSpeed:userCube.infractionsUserData![index].data()['preSpeed'],
+                                      name: userCube.infractionsUserData![index].data()['name'],
+                                      carNumber: userCube.infractionsUserData![index].data()['carNumber'],
+                                      nationalId: userCube.infractionsUserData![index].data()['nationalID'],
+                                      price: userCube.infractionsUserData![index].data()['price'],
                                     ),
                                 separatorBuilder: (context, index) =>
                                     const SizedBox(height: 10),
                                 itemCount: userCube.infractionsUserData!.length),
-                          ),
+                          ):const SizedBox.shrink(),
                         ],
                       ),
                     ),

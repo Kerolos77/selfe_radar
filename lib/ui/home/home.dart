@@ -22,7 +22,7 @@ class _HomeState extends State<Home> {
       create: (BuildContext context) => MapCubit(),
       child: const MapScreen(),
     ),
-    const UserProfile(),
+    const AdminProfile(),
   ];
   var screenIndex = crruntIndex;
 

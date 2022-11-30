@@ -21,11 +21,48 @@ class _hhhState extends State<hhh> {
   void initState() {
     // TODO: implement initState
     services = LocalNotificationServices();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      getAllInfra();
+    });
     services.initialize();
     super.initState();
   }
 
   // CacheHelper.getData(key: 'user').toString(),
+  dynamic lsas = [];
+  getAllInfra() async {
+    // .doc("zzSJgAGiwZYrmn6F5ocsnutlOf42")
+    // .collection('Infractions')
+   await FirebaseFirestore.instance
+        .collection('Infraction').get().then((value) {
+          value.docs.forEach((element) {
+            print(element.id);
+          });
+   });
+
+
+
+    // await FirebaseFirestore.instance
+    //     .collectionGroup('Infraction')
+    //     .get()
+    //     .then((querySnapshot) {
+    //   for (var element in querySnapshot.docs) {
+    //     FirebaseFirestore.instance
+    //         .collection('Infraction')
+    //         .doc("zzSJgAGiwZYrmn6F5ocsnutlOf42")
+    //         .collection('Infractions')
+    //         .get()
+    //         .then((value) {
+    //       for (var element2 in value.docs) {
+    //
+    //         setState(() {
+    //           lsas.add(element2.data());
+    //         });
+    //       }
+    //     });
+    //   }
+    // });
+  }
 
   Future<void> createAlert({
     required String name,
@@ -39,7 +76,7 @@ class _hhhState extends State<hhh> {
     required String price,
   }) async {
     AlertData alertData = AlertData(name, id, currentSpeed, preSpeed, time,
-        history, price, nationalID, "ب ت ع 111");
+        history, price, nationalID, "ب ت ع 111","");
     return firebase.collection('Infraction').doc(id).collection('Infractions').doc(CreateId.createId()).set(alertData.toMap());
   }
 
@@ -71,6 +108,9 @@ class _hhhState extends State<hhh> {
               },
               child: Text("notification"),
             ),
+          ),
+          Text(
+            "${lsas.length}"
           ),
         ],
       ),

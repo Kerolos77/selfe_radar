@@ -157,7 +157,7 @@ class _LoginState extends State<Login> {
                   textColor: Colors.black);
             }
             if (state is LoginSuccessUserState) {
-              CacheHelper.putData(key: "user", value: state.uId).then((value) {
+              CacheHelper.saveData(key: "user", value: state.uId).then((value) {
                 Navigator.push(
                     context, MaterialPageRoute(builder: (context) => Home()));
               });

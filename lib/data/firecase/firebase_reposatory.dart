@@ -1,4 +1,3 @@
-
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,8 +11,8 @@ import '../../models/user/UserDataModel.dart';
 import '../../utils/ID/CreateId.dart';
 import '../../utils/conestant/conestant.dart';
 import 'firebase_options.dart';
-class FirebaseReposatory {
 
+class FirebaseReposatory {
   static FirebaseFirestore firebase = FirebaseFirestore.instance;
 
   static Future<void> initFirebase() async {
@@ -21,7 +20,6 @@ class FirebaseReposatory {
       options: DefaultFirebaseOptions.currentPlatform,
     );
   }
-
 
   Future<void> createUser({
     required String name,
@@ -31,21 +29,8 @@ class FirebaseReposatory {
     required String nationalID,
   }) async {
     UserDataModel userDataModel = UserDataModel(
-      name,
-      email,
-      id,
-      false,
-      password,
-      0,
-      0,
-      0,
-      nationalID,
-      "ب ت ع 111"
-    );
-    return firebase
-        .collection('users')
-        .doc(id)
-        .set(userDataModel.toMap());
+        name, email, id, false, password, 0, 0, 0, nationalID, "ب ت ع 111");
+    return firebase.collection('users').doc(id).set(userDataModel.toMap());
   }
 
   Future<UserCredential> signUp({
@@ -53,7 +38,7 @@ class FirebaseReposatory {
     required String email,
     required String password,
   }) async {
-   return FirebaseAuth.instance
+    return FirebaseAuth.instance
         .createUserWithEmailAndPassword(email: email, password: password);
   }
 
@@ -66,27 +51,36 @@ class FirebaseReposatory {
     required String carNumber,
     required String price,
   }) async {
+    String s = CreateId.createId();
     AlertData alertData = AlertData(
-        name,
-        id,
-        currentSpeed,
-        preSpeed,
-        DateFormat("hh:mm a").format(DateTime.now()).toString(),
-        DateFormat('MM/dd/yyyy').format(DateTime.now()).toString(),
-        price,
-        nationalID,
-        carNumber);
+      name,
+      id,
+      currentSpeed,
+      preSpeed,
+      DateFormat("hh:mm a").format(DateTime.now()).toString(),
+      DateFormat('MM/dd/yyyy').format(DateTime.now()).toString(),
+      price,
+      nationalID,
+      carNumber,
+      s,
+    );
+     firebase
+        .collection('Infraction')
+        .doc(id).set({
+      "documentId":id
+    });
     return firebase
         .collection('Infraction')
-        .doc(id).collection('Infractions')
-        .doc(CreateId.createId())
+        .doc(id)
+        .collection('Infractions')
+        .doc(s)
         .set(alertData.toMap());
   }
 
   Future<UserCredential> login({
     required String email,
     required String password,
-  }) async{
+  }) async {
     return FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: password);
   }
@@ -100,7 +94,8 @@ class FirebaseReposatory {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -117,7 +112,8 @@ class FirebaseReposatory {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
 
     // Create a new credential
     final credential = GoogleAuthProvider.credential(
@@ -129,42 +125,47 @@ class FirebaseReposatory {
     return await FirebaseAuth.instance.signInWithCredential(credential);
   }
 
-  void saveUserLocation(
-  {
-  required double lat,
-  required double lng,
-  required double speed,
-}){
+  void saveUserLocation({
+    required double lat,
+    required double lng,
+    required double speed,
+  }) {
     firebase.collection('users').doc(constUid).update({
       'lat': lat,
       'lng': lng,
       'speed': speed,
-    });   
+    });
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getUserData(){
+  Future<DocumentSnapshot<Map<String, dynamic>>> getUserData() {
     return firebase.collection('users').doc(constUid).get();
   }
 
-  Future<DocumentSnapshot<Map<String, dynamic>>> getAdminData(){
+  Future<DocumentSnapshot<Map<String, dynamic>>> getAdminData() {
     return firebase.collection('users').doc(constUid).get();
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getUserInfractionsData(){
-    var d  = firebase.collection('Infraction').doc(CacheHelper.getData(key: 'user')).collection('Infractions').get();
+  Future<QuerySnapshot<Map<String, dynamic>>> getUserInfractionsData() {
+    var d = firebase
+        .collection('Infraction')
+        .doc(CacheHelper.getData(key: 'user'))
+        .collection('Infractions')
+        .get();
     d.then((value) {
       value.docs[0].data()['preSpeed'];
     });
-    return firebase.collection('Infraction').doc(CacheHelper.getData(key: 'user')).collection('Infractions').get();
+    return firebase
+        .collection('Infraction')
+        .doc(CacheHelper.getData(key: 'user'))
+        .collection('Infractions')
+        .get();
   }
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getAdminInfractionsData(){
+  Future<QuerySnapshot<Map<String, dynamic>>> getAdminInfractionsData() {
     return firebase.collection('Infraction').get();
   }
 
-  
-  void getUserLocation(){
+  void getUserLocation() {
     firebase.collection('users').doc(constUid).get();
   }
-
 }

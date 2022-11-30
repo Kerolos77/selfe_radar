@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:location/location.dart';
@@ -27,7 +28,7 @@ class MapCubit extends Cubit<MapState> {
 
   double speedMps = 0;
 
-  double preSpeed = 1;
+  double preSpeed = 0;
 
   bool locationButtonFlag = false;
 
@@ -102,7 +103,7 @@ class MapCubit extends Cubit<MapState> {
   void getMyLocationUpDate(context) {
     location.onLocationChanged.listen((LocationData currentLocation) {
       changeLocation(LatLng(currentLocation.latitude!, currentLocation.longitude!),currentLocation.speed??0 *3.6);
-      firebaseRepo.saveUserLocation(lat:lat.latitude,lng:lat.longitude,speed:currentLocation.speed??0 *3.6);
+      firebaseRepo.saveUserLocation(lat:lat.latitude,lng:lat.longitude,speed:((currentLocation.speed != null && currentLocation.speed! * (3600 / 1000) > 0) ? currentLocation.speed! * (3600 / 1000) : 0));
       emit(GetMyLocationMapState());
     });
   }
@@ -143,18 +144,21 @@ class MapCubit extends Cubit<MapState> {
 
   void createAlert(BuildContext context){
     emit(LoadingCreateAlertMapState());
-    firebaseRepo.createAlert(
-      name: "$constName",
-      id: '$constUid',
-      nationalID: '$constNationalId',
-      currentSpeed: speedMps.toStringAsFixed(0),
-      preSpeed: "50",
-      carNumber: "$constCarNumber",
-      price: "100 LE",
-    ).then((value) {
-      emit(SuccessCreateAlertMapState());
-    }).catchError((onError){
-    emit(ErrorCreateAlertMapState(onError.toString()));
+    FirebaseFirestore.instance.collection('users').doc(constUid).get().then((value) {
+      firebaseRepo.createAlert(
+        name: "${value.data()!['name']}",
+        id: '$constUid',
+        nationalID: '${value.data()!['nationalID']}',
+        currentSpeed: speedMps.toStringAsFixed(0),
+        preSpeed: "50",
+        carNumber: "${value.data()!['carNumber']}",
+        price: "100 LE",
+      ).then((value) {
+        emit(SuccessCreateAlertMapState());
+      }).catchError((onError){
+        emit(ErrorCreateAlertMapState(onError.toString()));
+      });
     });
+
   }
 }

@@ -15,7 +15,7 @@ class AdminCubit extends Cubit<AdminStates> {
 
   Map<String, dynamic>? Admin;
 
-  List<Map<String, dynamic>>? infractionsAdminData;
+  List<Map<String, dynamic>> infractionsAdminData = [];
 
   bool obscurePassFlag = true;
 
@@ -44,7 +44,7 @@ class AdminCubit extends Cubit<AdminStates> {
         FirebaseFirestore.instance.collection('Infraction').doc(element.id).collection('Infractions').get().then((value) {
           for (var element2 in value.docs) {
             print(element2.data());
-            return element2.data();
+            infractionsAdminData.add(element2.data());
             // infractionsAdminData!.add(element2.data());
             // print(infractionsAdminData![0]['name']);
           }
@@ -69,7 +69,7 @@ class AdminCubit extends Cubit<AdminStates> {
 
   void getAdminDataFromCash() {
     constName = CacheHelper.getData(key: 'name');
-    constEmail = CacheHelper.getData(key: 'email');
+    // constEmail = CacheHelper.getData(key: 'email');
     constNationalId = CacheHelper.getData(key: 'nationalID');
     constCarNumber = CacheHelper.getData(key: 'carNumber');
     emit(GetAdminCachedSuccessState());
