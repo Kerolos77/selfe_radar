@@ -71,7 +71,7 @@ class _AdminProfileState extends State<AdminProfile> {
             // print(lsas[1].toString());
 
             return RefreshIndicator(
-              onRefresh: () async{
+              onRefresh: () async {
                 getAllInfra();
               },
               child: Scaffold(
@@ -179,7 +179,8 @@ class _AdminProfileState extends State<AdminProfile> {
                                       shrinkWrap: true,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) => adminAlertCard(
+                                      itemBuilder: (context, index) =>
+                                          adminAlertCard(
                                             context: context,
                                             time: lsas[index]['time'],
                                             userDocId: lsas[index]['id'],
@@ -372,7 +373,7 @@ class _AdminProfileState extends State<AdminProfile> {
     required BuildContext context,
     required userDocId,
     required alertDocId,
-  }){
+  }) {
     return Card(
       elevation: 15,
       color: Colors.red.shade100,
@@ -418,17 +419,20 @@ class _AdminProfileState extends State<AdminProfile> {
               ],
             ),
             Center(child: alertUnit("Price: $price", color: Colors.green)),
-            Center(child: ElevatedButton(
-              onPressed: () async{
-                await FirebaseFirestore.instance.collection('Infraction').doc(userDocId).collection('Infractions').doc(alertDocId).delete().then((value) {
-
-                });
-                await  getAllInfra();
-                setState(() {
-
-                });
+            Center(
+                child: ElevatedButton(
+              onPressed: () async {
+                await FirebaseFirestore.instance
+                    .collection('Infraction')
+                    .doc(userDocId)
+                    .collection('Infractions')
+                    .doc(alertDocId)
+                    .delete()
+                    .then((value) {});
+                await getAllInfra();
+                setState(() {});
               },
-              child:const Text(
+              child: const Text(
                 'Delete',
               ),
             )),
