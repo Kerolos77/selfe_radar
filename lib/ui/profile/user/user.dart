@@ -143,6 +143,8 @@ class _UserProfileState extends State<UserProfile> {
                                 shrinkWrap: true,
                                 physics: const NeverScrollableScrollPhysics(),
                                 itemBuilder: (context, index) => alert(
+                                  time: userCube.infractionsUserData![index].data()['time'],
+                                      history: userCube.infractionsUserData![index].data()['history'],
                                       context: context,
                                       currentSpeed: userCube.infractionsUserData![index].data()['currentSpeed'],
                                       preSpeed:userCube.infractionsUserData![index].data()['preSpeed'],

@@ -11,6 +11,8 @@ Widget alert({
   required currentSpeed,
   required preSpeed,
   required price,
+  required time,
+  required history,
   required BuildContext context,
 }) {
   // var width = MediaQuery.of(context).size.width;
@@ -51,8 +53,10 @@ Widget alert({
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              alertUnit(DateFormat("hh:mm a").format(DateTime.now())),
-              alertUnit(DateFormat('MM/dd/yyyy').format(DateTime.now())),
+              // alertUnit(DateFormat("hh:mm a").format(DateTime.now())),
+              // alertUnit(DateFormat('MM/dd/yyyy').format(DateTime.now())),
+              alertUnit(time),
+              alertUnit(history),
             ],
           ),
 

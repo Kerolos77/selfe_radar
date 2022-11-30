@@ -5,6 +5,8 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:selfe_radar/cubit/profile/admin/AdminCubit.dart';
@@ -65,6 +67,8 @@ class _AdminProfileState extends State<AdminProfile> {
           listener: (BuildContext context, AdminStates state) {},
           builder: (BuildContext context, AdminStates state) {
             AdminCubit AdminCube = AdminCubit.get(context);
+
+            // print(lsas[1].toString());
 
             return RefreshIndicator(
               onRefresh: () async{
@@ -175,8 +179,12 @@ class _AdminProfileState extends State<AdminProfile> {
                                       shrinkWrap: true,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) => alert(
+                                      itemBuilder: (context, index) => adminAlertCard(
                                             context: context,
+                                            time: lsas[index]['time'],
+                                            userDocId: lsas[index]['id'],
+                                            alertDocId: lsas[index]['docID'],
+                                            history: lsas[index]['history'],
                                             currentSpeed: lsas[index]
                                                 ['currentSpeed'],
                                             preSpeed: lsas[index]['preSpeed'],
@@ -352,21 +360,81 @@ class _AdminProfileState extends State<AdminProfile> {
     );
   }
 
-  Widget userCard({
+  adminAlertCard({
+    carNumber,
     name,
     nationalId,
+    required currentSpeed,
+    required preSpeed,
+    required price,
+    required time,
+    required history,
     required BuildContext context,
-  }) {
+    required userDocId,
+    required alertDocId,
+  }){
     return Card(
       elevation: 15,
       color: Colors.red.shade100,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            alertUnit(name.toString()),
+            Center(
+              child: Column(
+                children: [
+                  SvgPicture.asset(
+                    'assets/images/alert_svg.svg',
+                    width: 50.w,
+                  ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                ],
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                alertUnit(name.toString()),
+                alertUnit(carNumber.toString()),
+              ],
+            ),
             alertUnit(nationalId.toString()),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                alertUnit(time),
+                alertUnit(history),
+              ],
+            ),
+            Row(
+              children: [
+                alertUnit("PreSpeed: $preSpeed", size: 16),
+                const Spacer(),
+                alertUnit("current Speed: $currentSpeed",
+                    size: 16, color: Colors.red),
+              ],
+            ),
+            Center(child: alertUnit("Price: $price", color: Colors.green)),
+            Center(child: ElevatedButton(
+              onPressed: () async{
+                await FirebaseFirestore.instance.collection('Infraction').doc(userDocId).collection('Infractions').doc(alertDocId).delete().then((value) {
+
+                });
+                await  getAllInfra();
+                setState(() {
+
+                });
+              },
+              child:const Text(
+                'Delete',
+              ),
+            )),
+            SizedBox(
+              height: 10.h,
+            ),
           ],
         ),
       ),
