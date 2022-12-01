@@ -37,7 +37,7 @@ class _SignUpState extends State<SignUp> {
         listener: (context, state) {
           print(state);
           if (state is SignUpErrorUserState) {
-            toast(msg: state.error,
+            toast(msg: "this user is already exist or filed to connect",
                 backColor: Colors.black38,
                 textColor: Colors.white);
           }

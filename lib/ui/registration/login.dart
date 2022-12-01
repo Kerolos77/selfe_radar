@@ -154,7 +154,7 @@ class _LoginState extends State<Login> {
           listener: (context, state) {
             if (state is LoginErrorUserState) {
               toast(
-                  msg: state.error.toString(),
+                  msg: "User Name or Password is incorrect or filed to connect",
                   backColor: Colors.grey.shade300,
                   textColor: Colors.black);
             }
