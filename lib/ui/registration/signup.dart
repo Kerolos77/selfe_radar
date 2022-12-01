@@ -54,7 +54,6 @@ class _SignUpState extends State<SignUp> {
           return Scaffold(
               backgroundColor: Colors.white,
               body: SafeArea(
-                child: noConnectionCard(
                   child: SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
@@ -277,7 +276,7 @@ class _SignUpState extends State<SignUp> {
                     ),
                   ),
                 ),
-              ));
+              );
         },
       ),
     );
