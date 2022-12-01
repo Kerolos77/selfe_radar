@@ -6,6 +6,7 @@ import 'package:selfe_radar/data/firecase/firebase_reposatory.dart';
 import 'package:selfe_radar/test.dart';
 import 'package:selfe_radar/ui/componants/alert_function/alert_function.dart';
 import 'package:selfe_radar/ui/home/home.dart';
+import 'package:selfe_radar/ui/profile/admin/admin.dart';
 import 'package:selfe_radar/ui/profile/user/user.dart';
 import 'package:selfe_radar/ui/registration/login.dart';
 import 'package:selfe_radar/ui/styles/colors.dart';
@@ -18,10 +19,13 @@ Future<void> main() async {
   await CacheHelper.init();
   Widget widget;
   String? uId = CacheHelper.getData(key: 'user');
-
   if (uId != null && uId != '') {
     constUid = uId;
-    widget = Home();
+    if(uId == 'admin'){
+      widget = const AdminProfile();
+    }else{
+      widget = Home();
+    }
   } else {
     widget = const Login();
   }

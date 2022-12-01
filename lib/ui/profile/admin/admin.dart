@@ -137,35 +137,7 @@ class _AdminProfileState extends State<AdminProfile> {
                                                     const Login()));
                                       },
                                       icon: const Icon(Icons.logout)),
-                                  Stack(
-                                    alignment: AlignmentDirectional.topStart,
-                                    children: [
-                                      SizedBox(
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                      ),
-                                      IconButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        EditAdmin(
-                                                          name: AdminCube
-                                                              .Admin!["name"],
-                                                          email: AdminCube
-                                                              .Admin!["email"],
-                                                          nationalId:
-                                                              AdminCube.Admin![
-                                                                  "nationalId"],
-                                                          carNumber:
-                                                              AdminCube.Admin![
-                                                                  "carNumber"],
-                                                        )));
-                                          },
-                                          icon: const Icon(Icons.edit)),
-                                    ],
-                                  )
+
                                 ],
                               ),
                             ),
@@ -199,7 +171,7 @@ class _AdminProfileState extends State<AdminProfile> {
                                           const SizedBox(height: 10),
                                       itemCount: lsas.length),
                                 )
-                              : Center(
+                              : const Center(
                                   child: Text("NO DATA"),
                                 ),
                         ],

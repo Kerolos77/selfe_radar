@@ -7,10 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:selfe_radar/cubit/profile/admin/AdminStates.dart';
 import 'package:selfe_radar/ui/componants/toast/toast.dart';
-import 'package:selfe_radar/ui/profile/Admin/Admin.dart';
-
-import '../../../cubit/profile/Admin/AdminCubit.dart';
-import '../../componants/default_text/default_text.dart';
+import '../../../cubit/profile/admin/AdminCubit.dart';
 import '../../componants/default_text_field/default_text_field.dart';
 
 class EditAdmin extends StatefulWidget {

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rive/rive.dart';
 import 'package:selfe_radar/ui/profile/admin/admin.dart';
 import 'package:selfe_radar/ui/registration/signup.dart';
+import 'package:selfe_radar/utils/conestant/conestant.dart';
 import '../../cubit/registration/registrationCubit.dart';
 import '../../cubit/registration/registrationStates.dart';
 import '../home/home.dart';
@@ -266,9 +267,11 @@ class _LoginState extends State<Login> {
                                       passwordFocusNode.unfocus();
                                       if (formKey.currentState!.validate()) {
                                         if (userNameControl.text ==
-                                                "admin@gmail.com" &&
+                                                "admin@admin.com" &&
                                             passwordControl.text ==
-                                                "12345678") {
+                                                "admin") {
+                                          CacheHelper.putData(key: "user", value: "admin");
+                                          constUid = "admin";
                                           Navigator.pushReplacement(
                                               context,
                                               MaterialPageRoute(
