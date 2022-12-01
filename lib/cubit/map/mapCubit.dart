@@ -28,7 +28,7 @@ class MapCubit extends Cubit<MapState> {
 
   double speedMps = 0;
 
-  double preSpeed = 0;
+  double preSpeed = 50;
 
   bool locationButtonFlag = false;
 
@@ -59,40 +59,40 @@ class MapCubit extends Cubit<MapState> {
     // emit(LocationButtonFlagMapState());
   }
 
-  void addMyMark({
-    required LatLng position,
-  }
-      )async{
-    BitmapDescriptor markerBitmap = await BitmapDescriptor.fromAssetImage(
-      const ImageConfiguration(
-      ),
-      "assets/images/car.png",
-    );
-    markers.add(
-        Marker( //add start location marker
-          markerId: MarkerId("user ID"),
-          position: position, //position of marker
-          icon: markerBitmap, //Icon for MarchangeLocationker
-        )
-    );
-  }
+  // void addMyMark({
+  //   required LatLng position,
+  // }
+  //     )async{
+  //   BitmapDescriptor markerBitmap = await BitmapDescriptor.fromAssetImage(
+  //     const ImageConfiguration(
+  //     ),
+  //     "assets/images/car.png",
+  //   );
+  //   markers.add(
+  //       Marker( //add start location marker
+  //         markerId: MarkerId("user ID"),
+  //         position: position, //position of marker
+  //         icon: markerBitmap, //Icon for MarchangeLocationker
+  //       )
+  //   );
+  // }
 
-  void addMark({
-    required LatLng position,
-  }
-  ){
-    markers.add(
-        Marker( //add start location marker
-          markerId: const MarkerId("user ID"),
-          position: position, //Icon for Marker
-        )
-    );
-  }
+  // void addMark({
+  //   required LatLng position,
+  // }
+  // ){
+  //   markers.add(
+  //       Marker( //add start location marker
+  //         markerId: const MarkerId("user ID"),
+  //         position: position, //Icon for Marker
+  //       )
+  //   );
+  // }
 
   void getMyLocation(){
     location.getLocation().then((value) {
-      changeLocation(LatLng(value.latitude!, value.longitude!),value.speed??9);
-      firebaseRepo.saveUserLocation(lat:value.latitude??0,lng:value.longitude??0, speed: value.speed??9);
+      changeLocation(LatLng(value.latitude!, value.longitude!),0);
+      firebaseRepo.saveUserLocation(lat:value.latitude??0,lng:value.longitude??0, speed: 0);
       animateCamera();
       // addMyMark(position: lat);
     });
@@ -102,24 +102,24 @@ class MapCubit extends Cubit<MapState> {
 
   void getMyLocationUpDate(context) {
     location.onLocationChanged.listen((LocationData currentLocation) {
-      changeLocation(LatLng(currentLocation.latitude!, currentLocation.longitude!),currentLocation.speed??0 *3.6);
+      changeLocation(LatLng(currentLocation.latitude!, currentLocation.longitude!),currentLocation.speed==null? 0 :((currentLocation.speed != null && currentLocation.speed! * (3600 / 1000) > 0) ? currentLocation.speed! * (3600 / 1000) : 0));
       firebaseRepo.saveUserLocation(lat:lat.latitude,lng:lat.longitude,speed:((currentLocation.speed != null && currentLocation.speed! * (3600 / 1000) > 0) ? currentLocation.speed! * (3600 / 1000) : 0));
       emit(GetMyLocationMapState());
     });
   }
 
-  void carSpeed(){
-    Geolocator.getPositionStream().
-    listen((position) {
-      print(LatLng(position.latitude, position.longitude));
-      print(position.speed);
-      speedMps = position.speed;
-      if(speedMps > 10 ){
-        speedColor = Colors.red.shade100.withOpacity(0.5);}
-      addMyMark(position: LatLng(position.latitude, position.longitude));
-      emit(CarSpeedMapState());
-    });
-  }
+  // void carSpeed(){
+  //   Geolocator.getPositionStream().
+  //   listen((position) {
+  //     print(LatLng(position.latitude, position.longitude));
+  //     print(position.speed);
+  //     speedMps = position.speed;
+  //     if(speedMps > 10 ){
+  //       speedColor = Colors.red.shade100.withOpacity(0.5);}
+  //     addMyMark(position: LatLng(position.latitude, position.longitude));
+  //     emit(CarSpeedMapState());
+  //   });
+  // }
 
   Future<void> animateCamera() async {
     final GoogleMapController controller = await this.controller.future;
