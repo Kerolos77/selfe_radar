@@ -40,7 +40,7 @@ class MapCubit extends Cubit<MapState> {
 
   Location location = Location();
 
-  var zoomLevel = 19.0;
+  var zoomLevel = 14.0;
 
   Set<Marker> markers = {}; //markers for google map
 
