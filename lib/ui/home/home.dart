@@ -17,6 +17,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+
   var screens = [
     BlocProvider(
       create: (BuildContext context) => MapCubit(),

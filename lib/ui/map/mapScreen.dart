@@ -30,7 +30,7 @@ class _MapScreenState extends State<MapScreen> {
             GoogleMap(
               initialCameraPosition: CameraPosition(
                 target: mapCub.lat,
-                zoom: 13.5,
+                zoom: 14,
               ),
               onMapCreated: (GoogleMapController controller) {
                 mapCub.controller.complete(controller);

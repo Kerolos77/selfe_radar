@@ -1,10 +1,10 @@
-
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rive/rive.dart';
+import 'package:selfe_radar/ui/profile/admin/admin.dart';
 import 'package:selfe_radar/ui/registration/signup.dart';
 import '../../cubit/registration/registrationCubit.dart';
 import '../../cubit/registration/registrationStates.dart';
@@ -144,6 +144,7 @@ class _LoginState extends State<Login> {
       }
     });
   }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -187,8 +188,8 @@ class _LoginState extends State<Login> {
                                 child: riveArtboard == null
                                     ? const SizedBox.shrink()
                                     : Rive(
-                                  artboard: riveArtboard!,
-                                ),
+                                        artboard: riveArtboard!,
+                                      ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(left: 15.0),
@@ -207,16 +208,18 @@ class _LoginState extends State<Login> {
                                   prefixIcon: CupertinoIcons.mail,
                                   hint: "Email",
                                   onchange: (value) {
-
                                     if (value.isNotEmpty) {
-                                      if(value.length < 16 && !isLookingLeft){
+                                      if (value.length < 16 && !isLookingLeft) {
                                         addLookLeftController();
-                                      }else if (value.length > 16 && !isLookingRight){
+                                      } else if (value.length > 16 &&
+                                          !isLookingRight) {
                                         addLookRightController();
                                       }
-                                      registrationCub.changeLoginUserNameFlag(true);
-                                    }else {
-                                      registrationCub.changeLoginUserNameFlag(false);
+                                      registrationCub
+                                          .changeLoginUserNameFlag(true);
+                                    } else {
+                                      registrationCub
+                                          .changeLoginUserNameFlag(false);
                                     }
                                   }),
                               registrationCub.loginUserNameFlag
@@ -262,16 +265,29 @@ class _LoginState extends State<Login> {
                                     onPress: () {
                                       passwordFocusNode.unfocus();
                                       if (formKey.currentState!.validate()) {
-                                        print("${state}++++++++++++++++++++++");
-                                        print(userNameControl.text);
-                                        print(passwordControl.text);
-                                        registrationCub.login(
-                                            email: userNameControl.text,
-                                            password: passwordControl.text);
+                                        if (userNameControl.text ==
+                                                "admin@gmail.com" &&
+                                            passwordControl.text ==
+                                                "12345678") {
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    const AdminProfile(),
+                                              ));
+                                        } else {
+                                          print(
+                                              "${state}++++++++++++++++++++++");
+                                          print(userNameControl.text);
+                                          print(passwordControl.text);
+                                          registrationCub.login(
+                                              email: userNameControl.text,
+                                              password: passwordControl.text);
+                                        }
                                       }
                                     }),
                                 fallback: (context) =>
-                                const CupertinoActivityIndicator(),
+                                    const CupertinoActivityIndicator(),
                               ),
                               // const SizedBox(
                               //   height: 20,
@@ -306,7 +322,8 @@ class _LoginState extends State<Login> {
                                       Navigator.push(
                                           context,
                                           MaterialPageRoute(
-                                            builder: (context) => const SignUp(),
+                                            builder: (context) =>
+                                                const SignUp(),
                                           ));
                                     },
                                     child: defaultText(
@@ -315,7 +332,6 @@ class _LoginState extends State<Login> {
                                       color: Colors.blue,
                                     ),
                                   ),
-
                                 ],
                               ),
                             ],
