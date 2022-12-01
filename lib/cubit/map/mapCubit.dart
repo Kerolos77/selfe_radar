@@ -51,7 +51,7 @@ class MapCubit extends Cubit<MapState> {
     this.lat = lat;
     speedMps = speed;
     animateCamera();
-    emit(ChangeLocationMapState());
+    // emit(ChangeLocationMapState());
   }
 
   void changeLocationButtonFlag(bool flag) {
@@ -95,8 +95,9 @@ class MapCubit extends Cubit<MapState> {
       firebaseRepo.saveUserLocation(lat:value.latitude??0,lng:value.longitude??0, speed: 0);
       animateCamera();
       // addMyMark(position: lat);
-      emit(GetMyLocationMapState());
     });
+
+    // emit(GetMyLocationMapState());
   }
 
   void getMyLocationUpDate(context) {
@@ -158,5 +159,6 @@ class MapCubit extends Cubit<MapState> {
         emit(ErrorCreateAlertMapState(onError.toString()));
       });
     });
+
   }
 }
