@@ -31,3 +31,13 @@ class ErrorSendNotificationMapState extends MapState {
 
   ErrorSendNotificationMapState(this.error);
 }
+
+class LoadingGetAddressMapState extends MapState {}
+
+class SuccessGetAddressMapState extends MapState {}
+
+class ErrorGetAddressMapState extends MapState {
+  final String error;
+
+  ErrorGetAddressMapState(this.error);
+}

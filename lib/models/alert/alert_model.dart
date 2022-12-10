@@ -5,24 +5,13 @@ class AlertData {
   late String preSpeed;
   late String nationalID;
   late String carNumber;
-  late String time;
   late String history;
   late String price;
   late String docID;
+  late String address;
 
-
-  AlertData(
-      this.name,
-      this.id,
-      this.currentSpeed,
-      this.preSpeed,
-      this.time,
-      this.history,
-      this.price,
-      this.nationalID,
-      this.carNumber,
-      this.docID
-      );
+  AlertData(this.name, this.id, this.currentSpeed, this.preSpeed, this.history,
+      this.price, this.nationalID, this.carNumber, this.docID, this.address);
 
   AlertData.fromJson(Map<String, dynamic> json) {
     currentSpeed = json['currentSpeed'];
@@ -31,10 +20,10 @@ class AlertData {
     preSpeed = json['preSpeed'];
     nationalID = json['nationalID'];
     carNumber = json['carNumber'];
-    time = json['time'];
     history = json['history'];
     price = json['price'];
     docID = json['docID'];
+    address = json['address'];
   }
 
   Map<String, dynamic> toMap() {
@@ -46,9 +35,9 @@ class AlertData {
       "currentSpeed": currentSpeed,
       "nationalID": nationalID,
       "carNumber": carNumber,
-      "time": time,
       "history": history,
       "docID": docID,
+      "address": address
     };
   }
 }

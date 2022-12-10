@@ -1,4 +1,5 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -172,177 +173,179 @@ class _LoginState extends State<Login> {
           builder: (context, state) {
             RegistrationCubit registrationCub = RegistrationCubit.get(context);
             return Scaffold(
-                backgroundColor: Colors.white,
-                body: SafeArea(
-                    child: SingleChildScrollView(
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Form(
-                          key: formKey,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                height: MediaQuery.of(context).size.height / 3,
-                                child: riveArtboard == null
-                                    ? const SizedBox.shrink()
-                                    : Rive(
-                                        artboard: riveArtboard!,
-                                      ),
+              backgroundColor: Colors.white,
+              body: DoubleBackToCloseApp(
+                snackBar: const SnackBar(
+                  content: Text('Tap back again to leave'),
+                ),
+                child: SafeArea(
+                  child: SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Form(
+                        key: formKey,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height / 3,
+                              child: riveArtboard == null
+                                  ? const SizedBox.shrink()
+                                  : Rive(
+                                      artboard: riveArtboard!,
+                                    ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(left: 15.0),
+                              child: defaultText(
+                                text: "Welcome Back",
+                                size: 15,
+                                color: Colors.grey.shade700,
                               ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 15.0),
-                                child: defaultText(
-                                  text: "Welcome Back",
-                                  size: 15,
-                                  color: Colors.grey.shade700,
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              defaultTextFiled(
-                                  type: TextInputType.emailAddress,
-                                  control: userNameControl,
-                                  prefixIcon: CupertinoIcons.mail,
-                                  hint: "Email",
-                                  onchange: (value) {
-                                    if (value.isNotEmpty) {
-                                      if (value.length < 16 && !isLookingLeft) {
-                                        addLookLeftController();
-                                      } else if (value.length > 16 &&
-                                          !isLookingRight) {
-                                        addLookRightController();
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            defaultTextFiled(
+                                type: TextInputType.emailAddress,
+                                control: userNameControl,
+                                prefixIcon: CupertinoIcons.mail,
+                                hint: "Email",
+                                onchange: (value) {
+                                  if (value.isNotEmpty) {
+                                    if (value.length < 16 && !isLookingLeft) {
+                                      addLookLeftController();
+                                    } else if (value.length > 16 &&
+                                        !isLookingRight) {
+                                      addLookRightController();
+                                    }
+                                    registrationCub
+                                        .changeLoginUserNameFlag(true);
+                                  } else {
+                                    registrationCub
+                                        .changeLoginUserNameFlag(false);
+                                  }
+                                }),
+                            registrationCub.loginUserNameFlag
+                                ? const SizedBox(
+                                    height: 20,
+                                  )
+                                : textRegester(text: 'ex : example@gmail.com'),
+                            defaultTextFiled(
+                              type: TextInputType.visiblePassword,
+                              obscure: registrationCub.obscurePassFlag,
+                              suffixIcon: registrationCub.obscurePassFlag
+                                  ? Icons.remove_red_eye_outlined
+                                  : Icons.visibility_off_outlined,
+                              control: passwordControl,
+                              prefixIcon: CupertinoIcons.lock,
+                              hint: 'Password',
+                              onPressSuffixIcon: () {
+                                registrationCub.changeObscurePassFlag(
+                                    !registrationCub.obscurePassFlag);
+                              },
+                              focusNode: passwordFocusNode,
+                              onchange: (value) {
+                                if (!value.isEmpty) {
+                                  registrationCub.changeLoginPassFlag(true);
+                                } else {
+                                  registrationCub.changeLoginPassFlag(false);
+                                }
+                              },
+                            ),
+                            registrationCub.loginPassFlag
+                                ? const SizedBox(
+                                    height: 20,
+                                  )
+                                : textRegester(text: 'ex : 12345678'),
+                            ConditionalBuilder(
+                              condition: state is! LoginSuccessUserState,
+                              builder: (context) => defaultButton(
+                                  isDone: registrationCub.loginPassFlag &&
+                                      registrationCub.loginUserNameFlag,
+                                  text: 'Login',
+                                  context: context,
+                                  onPress: () {
+                                    passwordFocusNode.unfocus();
+                                    if (formKey.currentState!.validate()) {
+                                      if (userNameControl.text ==
+                                              "admin@admin.com" &&
+                                          passwordControl.text == "admin") {
+                                        CacheHelper.putData(
+                                            key: "user", value: "admin");
+                                        constUid = "admin";
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  const AdminProfile(),
+                                            ));
+                                      } else {
+                                        print("${state}++++++++++++++++++++++");
+                                        print(userNameControl.text);
+                                        print(passwordControl.text);
+                                        registrationCub.login(
+                                            email: userNameControl.text,
+                                            password: passwordControl.text);
                                       }
-                                      registrationCub
-                                          .changeLoginUserNameFlag(true);
-                                    } else {
-                                      registrationCub
-                                          .changeLoginUserNameFlag(false);
                                     }
                                   }),
-                              registrationCub.loginUserNameFlag
-                                  ? const SizedBox(
-                                      height: 20,
-                                    )
-                                  : textRegester(
-                                      text: 'ex : example@gmail.com'),
-                              defaultTextFiled(
-                                type: TextInputType.visiblePassword,
-                                obscure: registrationCub.obscurePassFlag,
-                                suffixIcon: registrationCub.obscurePassFlag
-                                    ? Icons.remove_red_eye_outlined
-                                    : Icons.visibility_off_outlined,
-                                control: passwordControl,
-                                prefixIcon: CupertinoIcons.lock,
-                                hint: 'Password',
-                                onPressSuffixIcon: () {
-                                  registrationCub.changeObscurePassFlag(
-                                      !registrationCub.obscurePassFlag);
-                                },
-                                focusNode: passwordFocusNode,
-                                onchange: (value) {
-                                  if (!value.isEmpty) {
-                                    registrationCub.changeLoginPassFlag(true);
-                                  } else {
-                                    registrationCub.changeLoginPassFlag(false);
-                                  }
-                                },
-                              ),
-                              registrationCub.loginPassFlag
-                                  ? const SizedBox(
-                                      height: 20,
-                                    )
-                                  : textRegester(text: 'ex : 12345678'),
-                              ConditionalBuilder(
-                                condition: state is! LoginSuccessUserState,
-                                builder: (context) => defaultButton(
-                                    isDone: registrationCub.loginPassFlag &&
-                                        registrationCub.loginUserNameFlag,
-                                    text: 'Login',
-                                    context: context,
-                                    onPress: () {
-                                      passwordFocusNode.unfocus();
-                                      if (formKey.currentState!.validate()) {
-                                        if (userNameControl.text ==
-                                                "admin@admin.com" &&
-                                            passwordControl.text ==
-                                                "admin") {
-                                          CacheHelper.putData(key: "user", value: "admin");
-                                          constUid = "admin";
-                                          Navigator.pushReplacement(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const AdminProfile(),
-                                              ));
-                                        } else {
-                                          print(
-                                              "${state}++++++++++++++++++++++");
-                                          print(userNameControl.text);
-                                          print(passwordControl.text);
-                                          registrationCub.login(
-                                              email: userNameControl.text,
-                                              password: passwordControl.text);
-                                        }
-                                      }
-                                    }),
-                                fallback: (context) =>
-                                    const CupertinoActivityIndicator(),
-                              ),
-                              // const SizedBox(
-                              //   height: 20,
-                              // ),
-                              // ConditionalBuilder(
-                              //   condition: state is! LoginSuccessUserState,
-                              //   builder: (context) => defaultButton(
-                              //     color: Colors.red,
-                              //       isDone: true,
-                              //       text: 'Login with Google',
-                              //       imagePath: 'assets/images/google.png',
-                              //       context: context,
-                              //       onPress: () {
-                              //         registrationCub.logInWithGoogle();
-                              //       }),
-                              //   fallback: (context) =>
-                              //   const CupertinoActivityIndicator(),
-                              // ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  defaultText(
-                                    text: 'Don\'t have an account ?',
+                              fallback: (context) =>
+                                  const CupertinoActivityIndicator(),
+                            ),
+                            // const SizedBox(
+                            //   height: 20,
+                            // ),
+                            // ConditionalBuilder(
+                            //   condition: state is! LoginSuccessUserState,
+                            //   builder: (context) => defaultButton(
+                            //     color: Colors.red,
+                            //       isDone: true,
+                            //       text: 'Login with Google',
+                            //       imagePath: 'assets/images/google.png',
+                            //       context: context,
+                            //       onPress: () {
+                            //         registrationCub.logInWithGoogle();
+                            //       }),
+                            //   fallback: (context) =>
+                            //   const CupertinoActivityIndicator(),
+                            // ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                defaultText(
+                                  text: 'Don\'t have an account ?',
+                                  size: 10,
+                                  color: Colors.black,
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => const SignUp(),
+                                        ));
+                                  },
+                                  child: defaultText(
+                                    text: 'Sign Up',
                                     size: 10,
-                                    color: Colors.black,
+                                    color: Colors.blue,
                                   ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                            builder: (context) =>
-                                                const SignUp(),
-                                          ));
-                                    },
-                                    child: defaultText(
-                                      text: 'Sign Up',
-                                      size: 10,
-                                      color: Colors.blue,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
                   ),
-                );
+                ),
+              ),
+            );
           },
         ));
   }

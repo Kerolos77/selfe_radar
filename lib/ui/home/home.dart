@@ -1,9 +1,11 @@
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selfe_radar/cubit/map/mapCubit.dart';
 import 'package:selfe_radar/ui/map/mapScreen.dart';
 import 'package:selfe_radar/ui/profile/user/user.dart';
+
 import '../../utils/conestant/conestant.dart';
 
 class Home extends StatefulWidget {
@@ -14,7 +16,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-
   var screens = [
     BlocProvider(
       create: (BuildContext context) => MapCubit(),
@@ -47,7 +48,12 @@ class _HomeState extends State<Home> {
           icon: const Icon(CupertinoIcons.map),
         ),
       ),
-      body: screens[screenIndex],
+      body: DoubleBackToCloseApp(
+        snackBar: const SnackBar(
+          content: Text('Tap back again to leave'),
+        ),
+        child: screens[screenIndex],
+      ),
     );
   }
 }

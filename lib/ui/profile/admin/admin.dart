@@ -1,22 +1,20 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:selfe_radar/cubit/profile/admin/AdminCubit.dart';
 import 'package:selfe_radar/cubit/profile/admin/AdminStates.dart';
-import 'package:selfe_radar/utils/conestant/conestant.dart';
+
 import '../../../utils/cach_helper/cache_helper.dart';
 import '../../componants/alert_function/alert_function.dart';
 import '../../componants/default_text/default_text.dart';
 import '../../registration/login.dart';
-import 'edit_admin.dart';
 
 class AdminProfile extends StatefulWidget {
   const AdminProfile({Key? key}) : super(key: key);
@@ -71,116 +69,128 @@ class _AdminProfileState extends State<AdminProfile> {
             // print(lsas[1].toString());
 
             return RefreshIndicator(
-              onRefresh: () async {
-                getAllInfra();
-              },
-              child: Scaffold(
-                backgroundColor: Colors.white,
-                body: SafeArea(
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 8, right: 8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Card(
-                            elevation: 5,
-                            color: Colors.blue.shade50,
-                            child: Padding(
-                              padding: const EdgeInsets.only(bottom: 5.0),
-                              child: Stack(
-                                alignment: AlignmentDirectional.topEnd,
-                                children: [
-                                  Column(
+                onRefresh: () async {
+                  getAllInfra();
+                },
+                child: Scaffold(
+                  backgroundColor: Colors.white,
+                  body: DoubleBackToCloseApp(
+                    snackBar: const SnackBar(
+                      content: Text('Tap back again to leave'),
+                    ),
+                    child: SafeArea(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 8, right: 8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Card(
+                                elevation: 5,
+                                color: Colors.blue.shade50,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(bottom: 5.0),
+                                  child: Stack(
+                                    alignment: AlignmentDirectional.topEnd,
                                     children: [
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.width *
+                                      Column(
+                                        children: [
+                                          SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
                                                 0.06,
-                                        width:
-                                            MediaQuery.of(context).size.width,
-                                      ),
-                                      CircleAvatar(
-                                        radius: 70,
-                                        backgroundImage:
-                                            AssetImage(imageFile.path),
-                                      ),
-                                      SizedBox(
-                                        height:
-                                            MediaQuery.of(context).size.width *
+                                            width: MediaQuery.of(context)
+                                                .size
+                                                .width,
+                                          ),
+                                          CircleAvatar(
+                                            radius: 70,
+                                            backgroundImage:
+                                                AssetImage(imageFile.path),
+                                          ),
+                                          SizedBox(
+                                            height: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
                                                 0.06,
+                                          ),
+                                          defaultText(
+                                              // text: AdminCube.Admin!["name"],
+                                              text: "Admin",
+                                              size: 20),
+                                          // carNumber(
+                                          //   number:
+                                          //       "${AdminCube.Admin!["carNumber"]}",
+                                          // ),
+                                        ],
                                       ),
-                                      defaultText(
-                                          // text: AdminCube.Admin!["name"],
-                                          text: "Admin",
-                                          size: 20),
-                                      // carNumber(
-                                      //   number:
-                                      //       "${AdminCube.Admin!["carNumber"]}",
-                                      // ),
+                                      IconButton(
+                                          onPressed: () {
+                                            AdminCube.logout();
+                                            CacheHelper.removeData(
+                                                key: "Admin");
+                                            CacheHelper.removeData(key: "name");
+                                            CacheHelper.removeData(
+                                                key: "email");
+                                            CacheHelper.removeData(
+                                                key: "nationalId");
+                                            CacheHelper.removeData(
+                                                key: "carNumber");
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const Login()));
+                                          },
+                                          icon: const Icon(Icons.logout)),
                                     ],
                                   ),
-                                  IconButton(
-                                      onPressed: () {
-                                        AdminCube.logout();
-                                        CacheHelper.removeData(key: "Admin");
-                                        CacheHelper.removeData(key: "name");
-                                        CacheHelper.removeData(key: "email");
-                                        CacheHelper.removeData(
-                                            key: "nationalId");
-                                        CacheHelper.removeData(
-                                            key: "carNumber");
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const Login()));
-                                      },
-                                      icon: const Icon(Icons.logout)),
-
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.01,
-                          ),
-                          lsas.isNotEmpty
-                              ? SizedBox(
-                                  child: ListView.separated(
-                                      shrinkWrap: true,
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) =>
-                                          adminAlertCard(
-                                            context: context,
-                                            time: lsas[index]['time'],
-                                            userDocId: lsas[index]['id'],
-                                            alertDocId: lsas[index]['docID'],
-                                            history: lsas[index]['history'],
-                                            currentSpeed: lsas[index]
-                                                ['currentSpeed'],
-                                            preSpeed: lsas[index]['preSpeed'],
-                                            name: lsas[index]['name'],
-                                            carNumber: lsas[index]['carNumber'],
-                                            nationalId: lsas[index]
-                                                ['nationalID'],
-                                            price: lsas[index]['price'],
-                                          ),
-                                      separatorBuilder: (context, index) =>
-                                          const SizedBox(height: 10),
-                                      itemCount: lsas.length),
-                                )
-                              : const Center(
-                                  child: Text("NO DATA"),
                                 ),
-                        ],
+                              ),
+                              SizedBox(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.01,
+                              ),
+                              lsas.isNotEmpty
+                                  ? SizedBox(
+                                      child: ListView.separated(
+                                          shrinkWrap: true,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          itemBuilder: (context, index) =>
+                                              adminAlertCard(
+                                                context: context,
+                                                time: lsas[index]['time'],
+                                                userDocId: lsas[index]['id'],
+                                                alertDocId: lsas[index]
+                                                    ['docID'],
+                                                history: lsas[index]['history'],
+                                                currentSpeed: lsas[index]
+                                                    ['currentSpeed'],
+                                                preSpeed: lsas[index]
+                                                    ['preSpeed'],
+                                                name: lsas[index]['name'],
+                                                carNumber: lsas[index]
+                                                    ['carNumber'],
+                                                nationalId: lsas[index]
+                                                    ['nationalID'],
+                                                price: lsas[index]['price'],
+                                              ),
+                                          separatorBuilder: (context, index) =>
+                                              const SizedBox(height: 10),
+                                          itemCount: lsas.length),
+                                    )
+                                  : const Center(
+                                      child: Text("NO DATA"),
+                                    ),
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            );
+                ));
           }),
     );
   }

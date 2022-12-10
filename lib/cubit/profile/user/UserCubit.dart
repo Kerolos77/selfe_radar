@@ -1,8 +1,5 @@
-
-
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selfe_radar/cubit/profile/user/UserStates.dart';
 import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
@@ -10,13 +7,14 @@ import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
 import '../../../data/firecase/firebase_reposatory.dart';
 import '../../../utils/conestant/conestant.dart';
 
-class UserCubit extends Cubit<UserStates>{
+class UserCubit extends Cubit<UserStates> {
   UserCubit() : super(InitialUserState());
 
   static UserCubit get(context) => BlocProvider.of(context);
 
-   Map<String, dynamic>? user ;
-  List<QueryDocumentSnapshot<Map<String, dynamic>>>? infractionsUserData ;
+  Map<String, dynamic>? user;
+
+  List<QueryDocumentSnapshot<Map<String, dynamic>>>? infractionsUserData;
 
   bool obscurePassFlag = true;
 
@@ -24,42 +22,42 @@ class UserCubit extends Cubit<UserStates>{
 
   final FirebaseReposatory _firebaseReposatory = FirebaseReposatory();
 
-  void getUserData(){
+  void getUserData() {
     emit(GetUserLoadingState());
     _firebaseReposatory.getUserData().then((value) {
-       user = value.data() as Map<String, dynamic>;
-       // setUserDataInCash();
+      user = value.data() as Map<String, dynamic>;
+      // setUserDataInCash();
       emit(GetUserSuccessState());
-    }).catchError((error){
+    }).catchError((error) {
       emit(GetUserErrorState(error.toString()));
     });
   }
 
-  void getUserInfractionsData(){
+  void getUserInfractionsData() {
     emit(GetUserLoadingState());
     _firebaseReposatory.getUserInfractionsData().then((querySnapshot) {
-       infractionsUserData = querySnapshot.docs;
-       // setUserDataInCash();
+      infractionsUserData = querySnapshot.docs;
       emit(GetUserSuccessState());
-    }).catchError((error){
+    }).catchError((error) {
       emit(GetUserErrorState(error.toString()));
     });
   }
-  void setUserDataInCash(){
-    if(user!.isNotEmpty){
+
+  void setUserDataInCash() {
+    if (user!.isNotEmpty) {
       user!.forEach((key, value) {
         CacheHelper.putData(key: key, value: value);
       });
     }
   }
-  void getUserDataFromCash(){
-      constName = CacheHelper.getData(key: 'name');
-      // constEmail = CacheHelper.getData(key: 'email');
-      constNationalId = CacheHelper.getData(key: 'nationalID');
-      constCarNumber = CacheHelper.getData(key: 'carNumber');
+
+  void getUserDataFromCash() {
+    constName = CacheHelper.getData(key: 'name');
+    // constEmail = CacheHelper.getData(key: 'email');
+    constNationalId = CacheHelper.getData(key: 'nationalID');
+    constCarNumber = CacheHelper.getData(key: 'carNumber');
     emit(GetUserCachedSuccessState());
   }
-
 
   void logout() {
     _firebaseReposatory.logout();
@@ -75,6 +73,4 @@ class UserCubit extends Cubit<UserStates>{
     obscureConfirmFlag = flag;
     emit(ChangeObscureConfirmFlagUserState());
   }
-
-
 }

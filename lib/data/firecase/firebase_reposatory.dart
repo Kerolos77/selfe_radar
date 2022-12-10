@@ -1,11 +1,10 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
+
 import '../../models/alert/alert_model.dart';
 import '../../models/user/UserDataModel.dart';
 import '../../utils/ID/CreateId.dart';
@@ -51,6 +50,7 @@ class FirebaseReposatory {
     required String preSpeed,
     required String carNumber,
     required String price,
+    required String address,
   }) async {
     String s = CreateId.createId();
     AlertData alertData = AlertData(
@@ -58,18 +58,14 @@ class FirebaseReposatory {
       id,
       currentSpeed,
       preSpeed,
-      DateFormat("hh:mm a").format(DateTime.now()).toString(),
-      DateFormat('MM/dd/yyyy').format(DateTime.now()).toString(),
+      DateFormat("MM/dd/yyyy hh:mm a").format(DateTime.now()).toString(),
       price,
       nationalID,
       carNumber,
       s,
+      address,
     );
-     firebase
-        .collection('Infraction')
-        .doc(id).set({
-      "documentId":id
-    });
+    firebase.collection('Infraction').doc(id).set({"documentId": id});
     return firebase
         .collection('Infraction')
         .doc(id)
@@ -151,6 +147,7 @@ class FirebaseReposatory {
         .collection('Infraction')
         .doc(CacheHelper.getData(key: 'user'))
         .collection('Infractions')
+        .orderBy("history", descending: true)
         .get();
     d.then((value) {
       value.docs[0].data()['preSpeed'];
@@ -159,6 +156,7 @@ class FirebaseReposatory {
         .collection('Infraction')
         .doc(CacheHelper.getData(key: 'user'))
         .collection('Infractions')
+        .orderBy("history", descending: true)
         .get();
   }
 

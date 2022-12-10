@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intl/intl.dart';
 import 'package:selfe_radar/ui/componants/default_text/default_text.dart';
 
 Widget alert({
@@ -11,7 +10,7 @@ Widget alert({
   required currentSpeed,
   required preSpeed,
   required price,
-  required time,
+  required address,
   required history,
   required BuildContext context,
 }) {
@@ -27,6 +26,7 @@ Widget alert({
         children: [
           Center(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SvgPicture.asset(
                   'assets/images/alert_svg.svg',
@@ -48,18 +48,8 @@ Widget alert({
               alertUnit(carNumber.toString()),
             ],
           ),
-
           alertUnit(nationalId.toString()),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              // alertUnit(DateFormat("hh:mm a").format(DateTime.now())),
-              // alertUnit(DateFormat('MM/dd/yyyy').format(DateTime.now())),
-              alertUnit(time),
-              alertUnit(history),
-            ],
-          ),
-
+          alertUnit(history),
           Row(
             children: [
               alertUnit("PreSpeed: $preSpeed", size: 16),
@@ -68,6 +58,7 @@ Widget alert({
                   size: 16, color: Colors.red),
             ],
           ),
+          Center(child: alertUnit("Address: $address", color: Colors.red)),
           Center(child: alertUnit("Price: $price", color: Colors.green)),
         ],
       ),
