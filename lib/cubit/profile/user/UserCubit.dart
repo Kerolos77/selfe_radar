@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker_platform_interface/src/types/image_source.dart';
 import 'package:selfe_radar/cubit/profile/user/UserStates.dart';
 import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
 
@@ -73,4 +74,6 @@ class UserCubit extends Cubit<UserStates> {
     obscureConfirmFlag = flag;
     emit(ChangeObscureConfirmFlagUserState());
   }
+
+  void getImage(ImageSource camera) {}
 }

@@ -2,6 +2,7 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:selfe_radar/cubit/map/mapCubit.dart';
 import 'package:selfe_radar/ui/map/mapScreen.dart';
 import 'package:selfe_radar/ui/profile/user/user.dart';
@@ -36,7 +37,7 @@ class _HomeState extends State<Home> {
                 screenIndex = 1;
               });
             },
-            icon: const Icon(CupertinoIcons.profile_circled),
+            icon: const Icon(FontAwesomeIcons.user),
           ),
         ],
         leading: IconButton(
@@ -45,7 +46,7 @@ class _HomeState extends State<Home> {
               screenIndex = 0;
             });
           },
-          icon: const Icon(CupertinoIcons.map),
+          icon: const Icon(FontAwesomeIcons.map),
         ),
       ),
       body: DoubleBackToCloseApp(

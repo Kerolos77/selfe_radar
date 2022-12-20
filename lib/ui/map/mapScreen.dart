@@ -1,5 +1,7 @@
-import 'package:flutter/cupertino.dart';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_countdown_timer/countdown_timer_controller.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -21,8 +23,14 @@ class _MapScreenState extends State<MapScreen> {
   bool isInfraction = false;
   bool timerFlag = false;
 
+  BitmapDescriptor markIcon = BitmapDescriptor.defaultMarker;
+  late Uint8List bytes;
+
+  String imgUrl = "https://www.fluttercampus.com/img/car.png";
+
   @override
   Widget build(BuildContext context) {
+    // getMarkerIcon();
     MapCubit mapCub = MapCubit.get(context);
     int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
     controller = CountdownTimerController(
@@ -58,7 +66,17 @@ class _MapScreenState extends State<MapScreen> {
                   onCameraMove: (CameraPosition position) {
                     mapCub.changeLocationButtonFlag(false);
                     mapCub.zoomLevel = position.zoom;
+                    mapCub.mapBearing = position.bearing;
                   },
+                  // markers: <Marker>{
+                  //   Marker(
+                  //       markerId: const MarkerId("myGPS"),
+                  //       position: mapCub.lat,
+                  //       icon: markIcon),
+                  // },
+                  // myLocationEnabled: true,
+                  indoorViewEnabled: true,
+
                   myLocationEnabled: true,
                   trafficEnabled: true,
                   buildingsEnabled: true,
@@ -135,4 +153,19 @@ class _MapScreenState extends State<MapScreen> {
       ],
     );
   }
+//
+// void getMarkerIcon() {
+//   BitmapDescriptor.fromAssetImage(const ImageConfiguration(),
+//           "assets/images/location-arrow-solid.png")
+//       .then((value) {
+//     setState(() {
+//       markIcon = value;
+//     });
+//   }).catchError((error) {
+//     setState(() {
+//       markIcon =
+//           BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
+//     });
+//   });
+// }
 }

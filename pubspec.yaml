@@ -57,7 +57,7 @@ dependencies:
   flutter_offline: ^2.1.0
   conditional_builder_null_safety: ^0.0.6
   #fonts
-#  google_fonts_arabic: ^1.1.7
+  #  google_fonts_arabic: ^1.1.7
   #sign_in_with_google
   google_sign_in: ^5.4.2
 
@@ -77,6 +77,9 @@ dependencies:
   double_back_to_close_app: ^2.1.0
   geocode: ^1.0.2
   flutter_countdown_timer: ^4.1.0
+  credit_card_type_detector: ^2.0.0
+  font_awesome_flutter: ^10.3.0
+  status_alert: ^1.0.0
 
 
 

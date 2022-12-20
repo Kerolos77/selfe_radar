@@ -1,13 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:selfe_radar/data/firecase/firebase_reposatory.dart';
-import 'package:selfe_radar/test.dart';
-import 'package:selfe_radar/ui/componants/alert_function/alert_function.dart';
 import 'package:selfe_radar/ui/home/home.dart';
 import 'package:selfe_radar/ui/profile/admin/admin.dart';
-import 'package:selfe_radar/ui/profile/user/user.dart';
 import 'package:selfe_radar/ui/registration/login.dart';
 import 'package:selfe_radar/ui/styles/colors.dart';
 import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
@@ -21,15 +17,14 @@ Future<void> main() async {
   String? uId = CacheHelper.getData(key: 'user');
   if (uId != null && uId != '') {
     constUid = uId;
-    if(uId == 'admin'){
+    if (uId == 'admin') {
       widget = const AdminProfile();
-    }else{
+    } else {
       widget = Home();
     }
   } else {
     widget = const Login();
   }
-  // widget = const UserProfile();
 
   runApp(MyApp(startWidget: widget));
 }
@@ -61,7 +56,6 @@ class MyApp extends StatelessWidget {
               )),
           home: stWidget,
         );
-
       },
     );
   }

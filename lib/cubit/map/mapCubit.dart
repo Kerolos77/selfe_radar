@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocode/geocode.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -39,7 +40,8 @@ class MapCubit extends Cubit<MapState> {
 
   Location location = Location();
 
-  var zoomLevel = 16.0;
+  var zoomLevel = 17.0;
+  var mapBearing = 0.0;
 
   GeoCode geoCode = GeoCode();
 
@@ -70,6 +72,8 @@ class MapCubit extends Cubit<MapState> {
 
   void getMyLocationUpDate(context) {
     location.onLocationChanged.listen((LocationData currentLocation) {
+      // mapBearing = bearingBetween(currentLocation.latitude!,
+      //     currentLocation.longitude!, lat.latitude, lat.longitude);
       changeLocation(
           LatLng(currentLocation.latitude!, currentLocation.longitude!),
           currentLocation.speed == null
@@ -85,7 +89,6 @@ class MapCubit extends Cubit<MapState> {
         address =
             "${value.streetAddress} , ${value.city} , ${value.region} , ${value.countryName}, ${value.postal}";
       }).catchError((e) {
-        address = 'No Address Found';
         debugPrint("++++++++++++++++++++++++ ${e.toString()}");
       });
       updatePreSpeedByStreetNumber(streetNumber);
@@ -106,6 +109,7 @@ class MapCubit extends Cubit<MapState> {
     cameraPosition = CameraPosition(
       target: lat,
       zoom: zoomLevel,
+      bearing: mapBearing,
     );
     controller.animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
@@ -137,7 +141,7 @@ class MapCubit extends Cubit<MapState> {
         id: '$constUid',
         nationalID: '${value.data()!['nationalID']}',
         currentSpeed: speedMps.toStringAsFixed(0),
-        preSpeed: "50",
+        preSpeed: preSpeed.toStringAsFixed(0),
         carNumber: "${value.data()!['carNumber']}",
         price: "100 LE",
         address: address,
@@ -160,10 +164,25 @@ class MapCubit extends Cubit<MapState> {
   void updatePreSpeedByStreetNumber(int streetNumber) {
     switch (streetNumber) {
       case 15:
-        preSpeed = 15;
+        preSpeed = 100;
         break;
       case 0:
         preSpeed = 50;
     }
   }
+
+  static double bearingBetween(
+    double startLatitude,
+    double startLongitude,
+    double endLatitude,
+    double endLongitude,
+  ) =>
+      GeolocatorPlatform.instance.bearingBetween(
+        startLatitude,
+        startLongitude,
+        endLatitude,
+        endLongitude,
+      );
+// static double bearing() =>
+//     GeolocatorPlatform.instance.b
 }

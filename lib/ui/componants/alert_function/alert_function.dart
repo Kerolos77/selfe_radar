@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:selfe_radar/ui/componants/default_text/default_text.dart';
+import 'package:status_alert/status_alert.dart';
+
+import '../status_alert/status_alert.dart';
 
 Widget alert({
-  carNumber,
-  name,
-  nationalId,
+  carNumber = "",
+  name = "",
+  nationalId = "",
   required currentSpeed,
   required preSpeed,
   required price,
@@ -14,8 +17,6 @@ Widget alert({
   required history,
   required BuildContext context,
 }) {
-  // var width = MediaQuery.of(context).size.width;
-  // var height = MediaQuery.of(context).size.height;
   return Card(
     elevation: 15,
     color: Colors.red.shade100,
@@ -24,42 +25,72 @@ Widget alert({
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  'assets/images/alert_svg.svg',
-                  width: 50.w,
-                ),
-                SizedBox(
-                  height: 5.h,
-                ),
-                // Center(
-                //   child: defaultText(text: 'Alert', color: Colors.red),
-                // ),
-              ],
-            ),
-          ),
+          // Center(
+          //   child: Column(
+          //     crossAxisAlignment: CrossAxisAlignment.center,
+          //     children: [
+          //       SvgPicture.asset(
+          //         'assets/images/alert_svg.svg',
+          //         width: 50.w,
+          //       ),
+          //       SizedBox(
+          //         height: 5.h,
+          //       ),
+          //       // Center(
+          //       //   child: defaultText(text: 'Alert', color: Colors.red),
+          //       // ),
+          //     ],
+          //   ),
+          // ),
+          name != "" && carNumber != ""
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    alertUnit(name.toString()),
+                    alertUnit(carNumber.toString()),
+                  ],
+                )
+              : const SizedBox(),
+          nationalId != ""
+              ? alertUnit(nationalId.toString())
+              : const SizedBox(),
+          alertUnit(history),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              alertUnit(name.toString()),
-              alertUnit(carNumber.toString()),
-            ],
-          ),
-          alertUnit(nationalId.toString()),
-          alertUnit(history),
-          Row(
-            children: [
               alertUnit("PreSpeed: $preSpeed", size: 16),
-              const Spacer(),
               alertUnit("current Speed: $currentSpeed",
                   size: 16, color: Colors.red),
             ],
           ),
-          Center(child: alertUnit("Address: $address", color: Colors.red)),
-          Center(child: alertUnit("Price: $price", color: Colors.green)),
+          alertUnit("Address: $address", color: Colors.red),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              defaultText(
+                text: 'Price: $price',
+                size: 15.0.sp,
+                color: Colors.green,
+              ),
+              IconButton(
+                  onPressed: () {
+                    statusCard(
+                      context: context,
+                      title: 'Payment Done',
+                      configurationIcon: const IconConfiguration(
+                          icon: FontAwesomeIcons.moneyBill,
+                          color: Colors.green,
+                          size: 50),
+                    );
+                  },
+                  icon: Icon(
+                    FontAwesomeIcons.amazonPay,
+                    size: 30.0.sp,
+                    color: Colors.green,
+                  ))
+            ],
+          ),
         ],
       ),
     ),
