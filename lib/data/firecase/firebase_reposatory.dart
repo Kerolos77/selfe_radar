@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:intl/intl.dart';
 import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
 
@@ -28,9 +27,26 @@ class FirebaseReposatory {
     required String nationalID,
     required String carNumber,
   }) async {
-    UserDataModel userDataModel = UserDataModel(
-        name, email, id, false, password, 0, 0, 0, nationalID, carNumber);
+    UserDataModel userDataModel = UserDataModel(name, email, id, false,
+        password, 0, 0, 0, nationalID, carNumber, "", "", 0, 0, 0);
     return firebase.collection('users').doc(id).set(userDataModel.toMap());
+  }
+
+  void setPayment({
+    required String id,
+    required String cardNumber,
+    required String cardHolder,
+    required int cardMonth,
+    required int cardYear,
+    required int cvv,
+  }) {
+    firebase.collection('users').doc(id).update({
+      'cardNumber': cardNumber,
+      'cardHolder': cardHolder,
+      'cardMonth': cardMonth,
+      'cardYear': cardYear,
+      'cvv': cvv
+    });
   }
 
   Future<UserCredential> signUp({
@@ -86,42 +102,6 @@ class FirebaseReposatory {
     FirebaseAuth.instance.signOut();
   }
 
-  Future<UserCredential> loginInWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  }
-
-  Future<UserCredential> sginUpWithGoogle() async {
-    // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
-
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
-
-    // Once signed in, return the UserCredential
-    return await FirebaseAuth.instance.signInWithCredential(credential);
-  }
-
   void saveUserLocation({
     required double lat,
     required double lng,
@@ -167,4 +147,8 @@ class FirebaseReposatory {
   void getUserLocation() {
     firebase.collection('users').doc(constUid).get();
   }
+
+  void setCarPreSpeed() {}
+
+  void carPreSpeed() {}
 }

@@ -25,7 +25,6 @@ Future<void> main() async {
   } else {
     widget = const Login();
   }
-
   runApp(MyApp(startWidget: widget));
 }
 

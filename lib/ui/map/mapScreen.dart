@@ -76,7 +76,6 @@ class _MapScreenState extends State<MapScreen> {
                   // },
                   // myLocationEnabled: true,
                   indoorViewEnabled: true,
-
                   myLocationEnabled: true,
                   trafficEnabled: true,
                   buildingsEnabled: true,

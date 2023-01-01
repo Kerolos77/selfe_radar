@@ -127,6 +127,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.2.2"
+  credit_card_input_form:
+    dependency: "direct main"
+    description:
+      name: credit_card_input_form
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.3.0"
   credit_card_type_detector:
     dependency: "direct main"
     description:
@@ -232,6 +239,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.0.2"
+  flip_card:
+    dependency: transitive
+    description:
+      name: flip_card
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -243,7 +257,7 @@ packages:
       name: flutter_bloc
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "7.3.3"
+    version: "7.1.0"
   flutter_countdown_timer:
     dependency: "direct main"
     description:
@@ -736,7 +750,7 @@ packages:
       name: provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "6.0.4"
+    version: "5.0.0"
   pull_to_refresh:
     dependency: "direct main"
     description:

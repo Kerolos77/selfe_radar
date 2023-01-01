@@ -162,13 +162,7 @@ class MapCubit extends Cubit<MapState> {
   }
 
   void updatePreSpeedByStreetNumber(int streetNumber) {
-    switch (streetNumber) {
-      case 15:
-        preSpeed = 100;
-        break;
-      case 0:
-        preSpeed = 50;
-    }
+    preSpeed = streetNumber + 50;
   }
 
   static double bearingBetween(

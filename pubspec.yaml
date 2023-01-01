@@ -40,7 +40,7 @@ dependencies:
 
   #bloc
   bloc: ^7.2.1
-  flutter_bloc: ^7.3.1
+  flutter_bloc: ^7.1.0
   #firecase
   firebase_core: ^2.2.0
   firebase_auth: ^4.1.2
@@ -80,8 +80,7 @@ dependencies:
   credit_card_type_detector: ^2.0.0
   font_awesome_flutter: ^10.3.0
   status_alert: ^1.0.0
-
-
+  credit_card_input_form: ^2.3.0
 
 
 dev_dependencies:

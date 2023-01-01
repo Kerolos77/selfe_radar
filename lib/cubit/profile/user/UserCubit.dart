@@ -6,7 +6,6 @@ import 'package:selfe_radar/cubit/profile/user/UserStates.dart';
 import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
 
 import '../../../data/firecase/firebase_reposatory.dart';
-import '../../../utils/conestant/conestant.dart';
 
 class UserCubit extends Cubit<UserStates> {
   UserCubit() : super(InitialUserState());
@@ -15,7 +14,7 @@ class UserCubit extends Cubit<UserStates> {
 
   Map<String, dynamic>? user;
 
-  List<QueryDocumentSnapshot<Map<String, dynamic>>>? infractionsUserData;
+  List<QueryDocumentSnapshot<Map<String, dynamic>>> infractionsUserData = [];
 
   bool obscurePassFlag = true;
 
@@ -50,14 +49,6 @@ class UserCubit extends Cubit<UserStates> {
         CacheHelper.putData(key: key, value: value);
       });
     }
-  }
-
-  void getUserDataFromCash() {
-    constName = CacheHelper.getData(key: 'name');
-    // constEmail = CacheHelper.getData(key: 'email');
-    constNationalId = CacheHelper.getData(key: 'nationalID');
-    constCarNumber = CacheHelper.getData(key: 'carNumber');
-    emit(GetUserCachedSuccessState());
   }
 
   void logout() {

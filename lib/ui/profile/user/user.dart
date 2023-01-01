@@ -11,7 +11,6 @@ import 'package:selfe_radar/cubit/profile/user/UserStates.dart';
 
 import '../../../utils/cach_helper/cache_helper.dart';
 import '../../componants/alert_function/alert_function.dart';
-import '../../componants/car_number/CarNumber.dart';
 import '../../componants/default_text/default_text.dart';
 import '../../payment/payment.dart';
 import '../../registration/login.dart';
@@ -35,7 +34,6 @@ class _UserProfileState extends State<UserProfile> {
           builder: (BuildContext context, UserStates state) {
             UserCubit userCube = UserCubit.get(context);
             userCube.user ?? userCube.getUserData();
-
             userCube.getUserInfractionsData();
 
             return ConditionalBuilder(
@@ -77,12 +75,17 @@ class _UserProfileState extends State<UserProfile> {
                                                 0.06,
                                       ),
                                       defaultText(
-                                          text: userCube.user!["name"],
+                                          text:
+                                              '${CacheHelper.getData(key: 'name')}',
                                           size: 20),
-                                      carNumber(
-                                        number:
-                                            "${userCube.user!["carNumber"]}",
-                                      ),
+                                      defaultText(
+                                          text:
+                                              '${CacheHelper.getData(key: 'nationalID')}',
+                                          size: 20),
+                                      defaultText(
+                                          text:
+                                              '${CacheHelper.getData(key: 'carNumber')}',
+                                          size: 20),
                                     ],
                                   ),
                                   IconButton(
@@ -95,6 +98,14 @@ class _UserProfileState extends State<UserProfile> {
                                             key: "nationalId");
                                         CacheHelper.removeData(
                                             key: "carNumber");
+                                        CacheHelper.removeData(
+                                            key: "cardNumber");
+                                        CacheHelper.removeData(
+                                            key: "cardHolder");
+                                        CacheHelper.removeData(
+                                            key: "cardMonth");
+                                        CacheHelper.removeData(key: "cardYear");
+                                        CacheHelper.removeData(key: "cardCvv");
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -110,26 +121,6 @@ class _UserProfileState extends State<UserProfile> {
                                         width:
                                             MediaQuery.of(context).size.width,
                                       ),
-                                      // IconButton(
-                                      //     onPressed: () {
-                                      //       Navigator.push(
-                                      //           context,
-                                      //           MaterialPageRoute(
-                                      //               builder: (context) =>
-                                      //                   EditUser(
-                                      //                     name: userCube
-                                      //                         .user!["name"],
-                                      //                     email: userCube
-                                      //                         .user!["email"],
-                                      //                     nationalId:
-                                      //                         userCube.user![
-                                      //                             "nationalId"],
-                                      //                     carNumber:
-                                      //                         userCube.user![
-                                      //                             "carNumber"],
-                                      //                   )));
-                                      //     },
-                                      //     icon: const Icon(Icons.edit)),
                                       IconButton(
                                           onPressed: () {
                                             Navigator.push(
@@ -149,7 +140,7 @@ class _UserProfileState extends State<UserProfile> {
                           SizedBox(
                             height: MediaQuery.of(context).size.height * 0.01,
                           ),
-                          userCube.infractionsUserData != null
+                          userCube.infractionsUserData.isNotEmpty
                               ? SizedBox(
                                   child: ListView.separated(
                                       shrinkWrap: true,
@@ -157,17 +148,17 @@ class _UserProfileState extends State<UserProfile> {
                                           const NeverScrollableScrollPhysics(),
                                       itemBuilder: (context, index) => alert(
                                             history: userCube
-                                                .infractionsUserData![index]
+                                                .infractionsUserData[index]
                                                 .data()['history'],
                                             address: userCube
-                                                .infractionsUserData![index]
+                                                .infractionsUserData[index]
                                                 .data()['address'],
                                             context: context,
                                             currentSpeed: userCube
-                                                .infractionsUserData![index]
+                                                .infractionsUserData[index]
                                                 .data()['currentSpeed'],
                                             preSpeed: userCube
-                                                .infractionsUserData![index]
+                                                .infractionsUserData[index]
                                                 .data()['preSpeed'],
                                             // name: userCube
                                             //     .infractionsUserData![index]
@@ -179,15 +170,18 @@ class _UserProfileState extends State<UserProfile> {
                                             //     .infractionsUserData![index]
                                             //     .data()['nationalID'],
                                             price: userCube
-                                                .infractionsUserData![index]
+                                                .infractionsUserData[index]
                                                 .data()['price'],
                                           ),
                                       separatorBuilder: (context, index) =>
                                           const SizedBox(height: 10),
                                       itemCount:
-                                          userCube.infractionsUserData!.length),
+                                          userCube.infractionsUserData.length),
                                 )
-                              : const SizedBox.shrink(),
+                              : Center(
+                                  child: defaultText(
+                                      text: 'No User Infractions Found'),
+                                ),
                         ],
                       ),
                     ),

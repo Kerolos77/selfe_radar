@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selfe_radar/data/firecase/firebase_reposatory.dart';
 import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
-import '../../models/user/UserDataModel.dart';
+
 import '../../utils/conestant/conestant.dart';
 import 'registrationStates.dart';
 
@@ -76,7 +76,16 @@ class RegistrationCubit extends Cubit<RegistrationState> {
           name: name,
           id: value.user!.uid,
           nationalID: nationalID,
-          password: password,carNumber: carNumber);
+          password: password,
+          carNumber: carNumber);
+      CacheHelper.saveData(key: 'name', value: '');
+      CacheHelper.saveData(key: 'nationalID', value: '');
+      CacheHelper.saveData(key: 'carNumber', value: '');
+      CacheHelper.saveData(key: 'cardNumber', value: '');
+      CacheHelper.saveData(key: 'cardHolder', value: '');
+      CacheHelper.saveData(key: 'cardMonth', value: '');
+      CacheHelper.saveData(key: 'cardYear', value: '');
+      CacheHelper.saveData(key: 'cardCvv', value: '');
     }).catchError((error) {
       emit(SignUpErrorUserState(error.toString()));
     });
@@ -100,22 +109,6 @@ class RegistrationCubit extends Cubit<RegistrationState> {
         CacheHelper.saveData(
             key: 'carNumber', value: value.data()!['carNumber']);
       });
-      emit(LoginSuccessUserState(value.user!.uid));
-    }).catchError((error) {
-      emit(LoginErrorUserState(error.toString()));
-    });
-  }
-
-  void logInWithGoogle({required String nationalID,required String carNumber}) {
-    emit(LoginLoadingUserState());
-    firebaseReposatory.loginInWithGoogle().then((value) {
-      constUid = value.user!.uid;
-      createUser(
-          name: value.user!.displayName ?? "no name",
-          email: value.user!.email ?? "no email",
-          id: value.user!.uid,
-          password: "null",
-          nationalID: nationalID,carNumber: carNumber);
       emit(LoginSuccessUserState(value.user!.uid));
     }).catchError((error) {
       emit(LoginErrorUserState(error.toString()));
