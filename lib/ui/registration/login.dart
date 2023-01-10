@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:rive/rive.dart';
 import 'package:selfe_radar/ui/profile/admin/admin.dart';
 import 'package:selfe_radar/ui/registration/signup.dart';
@@ -226,11 +227,22 @@ class _LoginState extends State<Login> {
                                         .changeLoginUserNameFlag(false);
                                   }
                                 }),
-                            registrationCub.loginUserNameFlag
-                                ? const SizedBox(
-                                    height: 20,
-                                  )
-                                : textRegester(text: 'ex : example@gmail.com'),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                textRegester(text: 'ex : example@gmail.com'),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 15.0),
+                                  child: Icon(
+                                    FontAwesomeIcons.solidCircleCheck,
+                                    color: registrationCub.loginUserNameFlag
+                                        ? Colors.green
+                                        : Colors.grey,
+                                    size: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
                             defaultTextFiled(
                               type: TextInputType.visiblePassword,
                               obscure: registrationCub.obscurePassFlag,
@@ -253,11 +265,22 @@ class _LoginState extends State<Login> {
                                 }
                               },
                             ),
-                            registrationCub.loginPassFlag
-                                ? const SizedBox(
-                                    height: 20,
-                                  )
-                                : textRegester(text: 'ex : 12345678'),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                textRegester(text: 'ex : xxxxxxxx'),
+                                Padding(
+                                  padding: const EdgeInsets.only(right: 15.0),
+                                  child: Icon(
+                                    FontAwesomeIcons.solidCircleCheck,
+                                    color: registrationCub.loginPassFlag
+                                        ? Colors.green
+                                        : Colors.grey,
+                                    size: 20,
+                                  ),
+                                ),
+                              ],
+                            ),
                             ConditionalBuilder(
                               condition: state is! LoginSuccessUserState,
                               builder: (context) => defaultButton(
@@ -293,23 +316,6 @@ class _LoginState extends State<Login> {
                               fallback: (context) =>
                                   const CupertinoActivityIndicator(),
                             ),
-                            // const SizedBox(
-                            //   height: 20,
-                            // ),
-                            // ConditionalBuilder(
-                            //   condition: state is! LoginSuccessUserState,
-                            //   builder: (context) => defaultButton(
-                            //     color: Colors.red,
-                            //       isDone: true,
-                            //       text: 'Login with Google',
-                            //       imagePath: 'assets/images/google.png',
-                            //       context: context,
-                            //       onPress: () {
-                            //         registrationCub.logInWithGoogle();
-                            //       }),
-                            //   fallback: (context) =>
-                            //   const CupertinoActivityIndicator(),
-                            // ),
                             const SizedBox(
                               height: 10,
                             ),

@@ -30,7 +30,6 @@ class _MapScreenState extends State<MapScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // getMarkerIcon();
     MapCubit mapCub = MapCubit.get(context);
     int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
     controller = CountdownTimerController(
@@ -68,13 +67,6 @@ class _MapScreenState extends State<MapScreen> {
                     mapCub.zoomLevel = position.zoom;
                     mapCub.mapBearing = position.bearing;
                   },
-                  // markers: <Marker>{
-                  //   Marker(
-                  //       markerId: const MarkerId("myGPS"),
-                  //       position: mapCub.lat,
-                  //       icon: markIcon),
-                  // },
-                  // myLocationEnabled: true,
                   indoorViewEnabled: true,
                   myLocationEnabled: true,
                   trafficEnabled: true,
@@ -98,15 +90,6 @@ class _MapScreenState extends State<MapScreen> {
                         speedCar: mapCub.speedMps.toStringAsFixed(0),
                         preSpeed: mapCub.preSpeed.toStringAsFixed(0),
                       ),
-                      Container(
-                          color: Colors.white,
-                          child: Text(
-                            mapCub.streetNumber.toString(),
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )),
                     ],
                   ),
                 ),
@@ -152,19 +135,4 @@ class _MapScreenState extends State<MapScreen> {
       ],
     );
   }
-//
-// void getMarkerIcon() {
-//   BitmapDescriptor.fromAssetImage(const ImageConfiguration(),
-//           "assets/images/location-arrow-solid.png")
-//       .then((value) {
-//     setState(() {
-//       markIcon = value;
-//     });
-//   }).catchError((error) {
-//     setState(() {
-//       markIcon =
-//           BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen);
-//     });
-//   });
-// }
 }

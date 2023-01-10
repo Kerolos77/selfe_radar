@@ -2,12 +2,10 @@ import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:selfe_radar/cubit/profile/admin/AdminCubit.dart';
 import 'package:selfe_radar/cubit/profile/admin/AdminStates.dart';
 
@@ -96,33 +94,31 @@ class _AdminProfileState extends State<AdminProfile> {
                                       Column(
                                         children: [
                                           SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
+                                            height: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width *
                                                 0.06,
-                                            width: MediaQuery.of(context)
+                                            width: MediaQuery
+                                                .of(context)
                                                 .size
                                                 .width,
                                           ),
                                           CircleAvatar(
                                             radius: 70,
                                             backgroundImage:
-                                                AssetImage(imageFile.path),
+                                            AssetImage(imageFile.path),
                                           ),
                                           SizedBox(
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
+                                            height: MediaQuery
+                                                .of(context)
+                                                .size
+                                                .width *
                                                 0.06,
                                           ),
                                           defaultText(
-                                              // text: AdminCube.Admin!["name"],
                                               text: "Admin",
                                               size: 20),
-                                          // carNumber(
-                                          //   number:
-                                          //       "${AdminCube.Admin!["carNumber"]}",
-                                          // ),
                                         ],
                                       ),
                                       IconButton(
@@ -141,7 +137,7 @@ class _AdminProfileState extends State<AdminProfile> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        const Login()));
+                                                    const Login()));
                                           },
                                           icon: const Icon(Icons.logout)),
                                     ],
@@ -150,40 +146,43 @@ class _AdminProfileState extends State<AdminProfile> {
                               ),
                               SizedBox(
                                 height:
-                                    MediaQuery.of(context).size.height * 0.01,
+                                MediaQuery
+                                    .of(context)
+                                    .size
+                                    .height * 0.01,
                               ),
                               lsas.isNotEmpty
                                   ? SizedBox(
-                                      child: ListView.separated(
-                                          shrinkWrap: true,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          itemBuilder: (context, index) =>
-                                              adminAlertCard(
-                                                context: context,
-                                                time: lsas[index]['time'],
-                                                userDocId: lsas[index]['id'],
-                                                alertDocId: lsas[index]
-                                                    ['docID'],
-                                                history: lsas[index]['history'],
-                                                currentSpeed: lsas[index]
-                                                    ['currentSpeed'],
-                                                preSpeed: lsas[index]
-                                                    ['preSpeed'],
-                                                name: lsas[index]['name'],
-                                                carNumber: lsas[index]
-                                                    ['carNumber'],
-                                                nationalId: lsas[index]
-                                                    ['nationalID'],
-                                                price: lsas[index]['price'],
-                                              ),
-                                          separatorBuilder: (context, index) =>
-                                              const SizedBox(height: 10),
-                                          itemCount: lsas.length),
-                                    )
+                                child: ListView.separated(
+                                    shrinkWrap: true,
+                                    physics:
+                                    const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) =>
+                                        adminAlertCard(
+                                          context: context,
+                                          time: lsas[index]['time'],
+                                          userDocId: lsas[index]['id'],
+                                          alertDocId: lsas[index]
+                                          ['docID'],
+                                          history: lsas[index]['history'],
+                                          currentSpeed: lsas[index]
+                                          ['currentSpeed'],
+                                          preSpeed: lsas[index]
+                                          ['preSpeed'],
+                                          name: lsas[index]['name'],
+                                          carNumber: lsas[index]
+                                          ['carNumber'],
+                                          nationalId: lsas[index]
+                                          ['nationalID'],
+                                          price: lsas[index]['price'],
+                                        ),
+                                    separatorBuilder: (context, index) =>
+                                    const SizedBox(height: 10),
+                                    itemCount: lsas.length),
+                              )
                                   : const Center(
-                                      child: Text("NO DATA"),
-                                    ),
+                                child: Text("NO DATA"),
+                              ),
                             ],
                           ),
                         ),
@@ -255,21 +254,21 @@ class _AdminProfileState extends State<AdminProfile> {
             Center(child: alertUnit("Price: $price", color: Colors.green)),
             Center(
                 child: ElevatedButton(
-              onPressed: () async {
-                await FirebaseFirestore.instance
-                    .collection('Infraction')
-                    .doc(userDocId)
-                    .collection('Infractions')
-                    .doc(alertDocId)
-                    .delete()
-                    .then((value) {});
-                await getAllInfra();
-                setState(() {});
-              },
-              child: const Text(
-                'Delete',
-              ),
-            )),
+                  onPressed: () async {
+                    await FirebaseFirestore.instance
+                        .collection('Infraction')
+                        .doc(userDocId)
+                        .collection('Infractions')
+                        .doc(alertDocId)
+                        .delete()
+                        .then((value) {});
+                    await getAllInfra();
+                    setState(() {});
+                  },
+                  child: const Text(
+                    'Delete',
+                  ),
+                )),
             SizedBox(
               height: 10.h,
             ),
@@ -279,9 +278,4 @@ class _AdminProfileState extends State<AdminProfile> {
     );
   }
 
-  Future<void> pickImageFromGallery() async {
-    final File imgFile = await ImagePicker.platform
-        .pickImage(source: ImageSource.gallery) as File;
-    setState(() => imageFile = imgFile);
-  }
 }

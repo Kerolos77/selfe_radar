@@ -86,6 +86,9 @@ class RegistrationCubit extends Cubit<RegistrationState> {
       CacheHelper.saveData(key: 'cardMonth', value: '');
       CacheHelper.saveData(key: 'cardYear', value: '');
       CacheHelper.saveData(key: 'cardCvv', value: '');
+      CacheHelper.saveData(key: 'National ID Image', value: '');
+      CacheHelper.saveData(key: 'Car Number Image', value: '');
+      CacheHelper.saveData(key: 'Driving License Image', value: '');
     }).catchError((error) {
       emit(SignUpErrorUserState(error.toString()));
     });

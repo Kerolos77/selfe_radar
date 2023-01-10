@@ -4,16 +4,6 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
-/// Default [FirebaseOptions] for use with your Firebase apps.
-///
-/// Example:
-/// ```dart
-/// import 'firebase_reposatory.dart';
-/// // ...
-/// await Firebase.initializeApp(
-///   options: DefaultFirebaseOptions.currentPlatform,
-/// );
-/// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
@@ -63,7 +53,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '758711100338',
     projectId: 'selfe-radar',
     storageBucket: 'selfe-radar.appspot.com',
-    iosClientId: '758711100338-d4p0hbqai4g3hev9n0afvmr5m0opl8rg.apps.googleusercontent.com',
+    iosClientId:
+        '758711100338-d4p0hbqai4g3hev9n0afvmr5m0opl8rg.apps.googleusercontent.com',
     iosBundleId: 'com.example.selfeRadar',
   );
 }

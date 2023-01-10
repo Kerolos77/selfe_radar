@@ -2,16 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../default_text/default_text.dart';
 
-
-Widget defaultButton(
-    {
-      required String text,
-      required bool isDone,
-      VoidCallback? onPress,
-      required BuildContext context,
-      Color color = Colors.black,
-      String? imagePath,
-    }) =>
+Widget defaultButton({
+  required String text,
+  required bool isDone,
+  VoidCallback? onPress,
+  required BuildContext context,
+  Color color = Colors.green,
+  String? imagePath,
+}) =>
     Container(
       width: MediaQuery.of(context).size.width,
       decoration: BoxDecoration(
@@ -27,12 +25,12 @@ Widget defaultButton(
               children: [
                 imagePath != null
                     ? CircleAvatar(
-                      radius: 15,
-                      backgroundColor: Colors.white,
-                      child: Image.asset(
-                            imagePath,
-                      ),
-                    )
+                        radius: 15,
+                        backgroundColor: Colors.white,
+                        child: Image.asset(
+                          imagePath,
+                        ),
+                      )
                     : const SizedBox(),
                 const SizedBox(
                   width: 10,
@@ -43,7 +41,6 @@ Widget defaultButton(
                   size: 20,
                 ),
               ],
-            )
-        ),
+            )),
       ),
     );

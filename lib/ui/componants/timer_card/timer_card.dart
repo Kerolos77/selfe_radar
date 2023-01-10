@@ -22,7 +22,7 @@ Widget timerCard({
           controller: controller,
           widgetBuilder: (_, CurrentRemainingTime? time) {
             if (time == null) {
-              return defaultText(text: 'Game over', size: 30);
+              return defaultText(text: '0', size: 30);
             }
             return defaultText(text: time.sec.toString(), size: 30);
           },

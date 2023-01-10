@@ -3,6 +3,8 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:selfe_radar/ui/componants/toast/toast.dart';
 
 import '../../cubit/registration/registrationCubit.dart';
@@ -28,6 +30,8 @@ class _SignUpState extends State<SignUp> {
   TextEditingController nationalIDControl = TextEditingController();
   TextEditingController nameControl = TextEditingController();
   TextEditingController carNumberControl = TextEditingController();
+
+  PickedFile img = PickedFile('');
 
   @override
   Widget build(BuildContext context) {
@@ -68,13 +72,6 @@ class _SignUpState extends State<SignUp> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // const Image(
-                          //   image: AssetImage(
-                          //     'assets/images/Time management.png',
-                          //   ),
-                          //   fit: BoxFit.scaleDown,
-                          //   // height: 150,
-                          // ),
                           Padding(
                             padding: const EdgeInsets.only(left: 15.0),
                             child: Container(
@@ -101,11 +98,22 @@ class _SignUpState extends State<SignUp> {
                               }
                             },
                           ),
-                          registrationCub.nameFlag
-                              ? const SizedBox(
-                                  height: 20,
-                                )
-                              : textRegester(text: 'ex : Ahmed'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              textRegester(text: 'ex : Ahmed'),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 15.0),
+                                child: Icon(
+                                  FontAwesomeIcons.solidCircleCheck,
+                                  color: registrationCub.nameFlag
+                                      ? Colors.green
+                                      : Colors.grey,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
+                          ),
                           defaultTextFiled(
                             type: TextInputType.emailAddress,
                             control: emailControl,
@@ -122,11 +130,22 @@ class _SignUpState extends State<SignUp> {
                               }
                             },
                           ),
-                          registrationCub.emailFlag
-                              ? const SizedBox(
-                                  height: 20,
-                                )
-                              : textRegester(text: 'ex : example@gmail.com'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              textRegester(text: 'ex : example@gmail.com'),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 15.0),
+                                child: Icon(
+                                  FontAwesomeIcons.solidCircleCheck,
+                                  color: registrationCub.emailFlag
+                                      ? Colors.green
+                                      : Colors.grey,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
+                          ),
                           defaultTextFiled(
                             type: TextInputType.emailAddress,
                             control: nationalIDControl,
@@ -140,11 +159,22 @@ class _SignUpState extends State<SignUp> {
                               }
                             },
                           ),
-                          registrationCub.nationalIdFlag
-                              ? const SizedBox(
-                                  height: 20,
-                                )
-                              : textRegester(text: 'ex : 12345678901234'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              textRegester(text: 'ex : 12345678901234'),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 15.0),
+                                child: Icon(
+                                  FontAwesomeIcons.solidCircleCheck,
+                                  color: registrationCub.nationalIdFlag
+                                      ? Colors.green
+                                      : Colors.grey,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
+                          ),
                           defaultTextFiled(
                             type: TextInputType.text,
                             control: carNumberControl,
@@ -169,22 +199,29 @@ class _SignUpState extends State<SignUp> {
                               },
                               onchange: (value) {
                                 if (!value.isEmpty &&
-                                    value.toString().length >= 8) {
+                                    value.toString().length >= 8 &&
+                                    value == confirmPasswordControl.text) {
                                   registrationCub.changePassNumCharFlag(true);
                                 } else {
                                   registrationCub.changePassNumCharFlag(false);
                                 }
-                                if (value == confirmPasswordControl.text) {
-                                  registrationCub.changePassConfirmFlag(true);
-                                } else {
-                                  registrationCub.changePassConfirmFlag(false);
-                                }
                               }),
-                          registrationCub.passNumChar
-                              ? const SizedBox(
-                                  height: 20,
-                                )
-                              : textRegester(text: 'ex : 12345678'),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              textRegester(text: 'ex : xxxxxxxx'),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 15.0),
+                                child: Icon(
+                                  FontAwesomeIcons.solidCircleCheck,
+                                  color: registrationCub.passNumChar
+                                      ? Colors.green
+                                      : Colors.grey,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
+                          ),
                           defaultTextFiled(
                               type: TextInputType.visiblePassword,
                               obscure: registrationCub.obscureConfirmFlag,
@@ -206,13 +243,22 @@ class _SignUpState extends State<SignUp> {
                                   registrationCub.changePassConfirmFlag(false);
                                 }
                               }),
-                          registrationCub.passConfirmFlag
-                              ? const SizedBox(
-                                  height: 20,
-                                )
-                              : textRegester(
-                                  text: 'ex : Not Identical Password'),
-
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              textRegester(text: 'ex : Not Identical Password'),
+                              Padding(
+                                padding: const EdgeInsets.only(right: 15.0),
+                                child: Icon(
+                                  FontAwesomeIcons.solidCircleCheck,
+                                  color: registrationCub.passConfirmFlag
+                                      ? Colors.green
+                                      : Colors.grey,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
+                          ),
                           ConditionalBuilder(
                             condition: state is! LoginSuccessUserState,
                             builder: (context) => defaultButton(
@@ -238,20 +284,6 @@ class _SignUpState extends State<SignUp> {
                           const SizedBox(
                             height: 20,
                           ),
-                          // ConditionalBuilder(
-                          //   condition: state is! LoginSuccessUserState,
-                          //   builder: (context) => defaultButton(
-                          //       color: Colors.red,
-                          //       isDone: true,
-                          //       text: 'Login with Google',
-                          //       imagePath: 'assets/images/google.png',
-                          //       context: context,
-                          //       onPress: () {
-                          //         registrationCub.logInWithGoogle();
-                          //       }),
-                          //   fallback: (context) =>
-                          //   const CupertinoActivityIndicator(),
-                          // ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [

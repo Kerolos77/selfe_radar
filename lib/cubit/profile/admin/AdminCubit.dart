@@ -1,6 +1,4 @@
-import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:selfe_radar/cubit/profile/admin/AdminStates.dart';
 import 'package:selfe_radar/utils/cach_helper/cache_helper.dart';
@@ -13,7 +11,7 @@ class AdminCubit extends Cubit<AdminStates> {
 
   static AdminCubit get(context) => BlocProvider.of(context);
 
-  Map<String, dynamic>? Admin;
+  Map<String, dynamic>? admin;
 
   List<Map<String, dynamic>> infractionsAdminData = [];
 
@@ -26,7 +24,7 @@ class AdminCubit extends Cubit<AdminStates> {
   void getAdminData() {
     emit(GetAdminLoadingState());
     _firebaseReposatory.getAdminData().then((value) {
-      Admin = value.data() as Map<String, dynamic>;
+      admin = value.data() as Map<String, dynamic>;
       setAdminDataInCash();
       emit(GetAdminSuccessState());
     }).catchError((error) {
@@ -41,15 +39,17 @@ class AdminCubit extends Cubit<AdminStates> {
         .get()
         .then((querySnapshot) {
       for (var element in querySnapshot.docs) {
-        FirebaseFirestore.instance.collection('Infraction').doc(element.id).collection('Infractions').get().then((value) {
+        FirebaseFirestore.instance
+            .collection('Infraction')
+            .doc(element.id)
+            .collection('Infractions')
+            .get()
+            .then((value) {
           for (var element2 in value.docs) {
             print(element2.data());
             infractionsAdminData.add(element2.data());
-            // infractionsAdminData!.add(element2.data());
-            // print(infractionsAdminData![0]['name']);
           }
-        }
-        );
+        });
       }
       setAdminDataInCash();
       emit(GetAdminSuccessState());
@@ -60,8 +60,8 @@ class AdminCubit extends Cubit<AdminStates> {
   }
 
   void setAdminDataInCash() {
-    if (Admin!.isNotEmpty) {
-      Admin!.forEach((key, value) {
+    if (admin!.isNotEmpty) {
+      admin!.forEach((key, value) {
         CacheHelper.putData(key: key, value: value);
       });
     }
@@ -69,7 +69,6 @@ class AdminCubit extends Cubit<AdminStates> {
 
   void getAdminDataFromCash() {
     constName = CacheHelper.getData(key: 'name');
-    // constEmail = CacheHelper.getData(key: 'email');
     constNationalId = CacheHelper.getData(key: 'nationalID');
     constCarNumber = CacheHelper.getData(key: 'carNumber');
     emit(GetAdminCachedSuccessState());

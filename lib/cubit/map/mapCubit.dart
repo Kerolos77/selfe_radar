@@ -1,11 +1,9 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:geocode/geocode.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 
@@ -72,8 +70,6 @@ class MapCubit extends Cubit<MapState> {
 
   void getMyLocationUpDate(context) {
     location.onLocationChanged.listen((LocationData currentLocation) {
-      // mapBearing = bearingBetween(currentLocation.latitude!,
-      //     currentLocation.longitude!, lat.latitude, lat.longitude);
       changeLocation(
           LatLng(currentLocation.latitude!, currentLocation.longitude!),
           currentLocation.speed == null
@@ -162,21 +158,6 @@ class MapCubit extends Cubit<MapState> {
   }
 
   void updatePreSpeedByStreetNumber(int streetNumber) {
-    preSpeed = streetNumber + 50;
+    preSpeed = streetNumber + 50.0;
   }
-
-  static double bearingBetween(
-    double startLatitude,
-    double startLongitude,
-    double endLatitude,
-    double endLongitude,
-  ) =>
-      GeolocatorPlatform.instance.bearingBetween(
-        startLatitude,
-        startLongitude,
-        endLatitude,
-        endLongitude,
-      );
-// static double bearing() =>
-//     GeolocatorPlatform.instance.b
 }

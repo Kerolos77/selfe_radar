@@ -27,26 +27,18 @@ class FirebaseReposatory {
     required String nationalID,
     required String carNumber,
   }) async {
-    UserDataModel userDataModel = UserDataModel(name, email, id, false,
-        password, 0, 0, 0, nationalID, carNumber, "", "", 0, 0, 0);
+    UserDataModel userDataModel = UserDataModel(
+        name,
+        email,
+        id,
+        false,
+        password,
+        0,
+        0,
+        0,
+        nationalID,
+        carNumber);
     return firebase.collection('users').doc(id).set(userDataModel.toMap());
-  }
-
-  void setPayment({
-    required String id,
-    required String cardNumber,
-    required String cardHolder,
-    required int cardMonth,
-    required int cardYear,
-    required int cvv,
-  }) {
-    firebase.collection('users').doc(id).update({
-      'cardNumber': cardNumber,
-      'cardHolder': cardHolder,
-      'cardMonth': cardMonth,
-      'cardYear': cardYear,
-      'cvv': cvv
-    });
   }
 
   Future<UserCredential> signUp({
@@ -88,6 +80,18 @@ class FirebaseReposatory {
         .collection('Infractions')
         .doc(s)
         .set(alertData.toMap());
+  }
+
+  void deleteAlert({
+    required id,
+    required docID,
+  }) {
+    firebase
+        .collection('Infraction')
+        .doc(id)
+        .collection('Infractions')
+        .doc(docID)
+        .delete();
   }
 
   Future<UserCredential> login({
@@ -144,11 +148,4 @@ class FirebaseReposatory {
     return firebase.collection('Infraction').get();
   }
 
-  void getUserLocation() {
-    firebase.collection('users').doc(constUid).get();
-  }
-
-  void setCarPreSpeed() {}
-
-  void carPreSpeed() {}
 }

@@ -1,13 +1,12 @@
 import 'dart:io';
 
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:selfe_radar/cubit/profile/user/UserCubit.dart';
 import 'package:selfe_radar/cubit/profile/user/UserStates.dart';
+import 'package:selfe_radar/ui/paper_work/paper_work.dart';
 
 import '../../../utils/cach_helper/cache_helper.dart';
 import '../../componants/alert_function/alert_function.dart';
@@ -106,6 +105,12 @@ class _UserProfileState extends State<UserProfile> {
                                             key: "cardMonth");
                                         CacheHelper.removeData(key: "cardYear");
                                         CacheHelper.removeData(key: "cardCvv");
+                                        CacheHelper.removeData(
+                                            key: 'National ID Image');
+                                        CacheHelper.removeData(
+                                            key: 'Car Number Image');
+                                        CacheHelper.removeData(
+                                            key: 'Driving License Image');
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -121,16 +126,30 @@ class _UserProfileState extends State<UserProfile> {
                                         width:
                                             MediaQuery.of(context).size.width,
                                       ),
-                                      IconButton(
-                                          onPressed: () {
-                                            Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const Payment()));
-                                          },
-                                          icon: const Icon(
-                                              FontAwesomeIcons.creditCard)),
+                                      Column(
+                                        children: [
+                                          IconButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const Payment()));
+                                              },
+                                              icon: const Icon(
+                                                  FontAwesomeIcons.creditCard)),
+                                          IconButton(
+                                              onPressed: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            const PaperWork()));
+                                              },
+                                              icon: const Icon(
+                                                  FontAwesomeIcons.upload)),
+                                        ],
+                                      ),
                                     ],
                                   )
                                 ],
@@ -146,7 +165,11 @@ class _UserProfileState extends State<UserProfile> {
                                       shrinkWrap: true,
                                       physics:
                                           const NeverScrollableScrollPhysics(),
-                                      itemBuilder: (context, index) => alert(
+                                      itemBuilder: (context, index) =>
+                                          alertFunction(
+                                            docID: userCube
+                                                .infractionsUserData[index]
+                                                .data()['docID'],
                                             history: userCube
                                                 .infractionsUserData[index]
                                                 .data()['history'],
@@ -160,15 +183,6 @@ class _UserProfileState extends State<UserProfile> {
                                             preSpeed: userCube
                                                 .infractionsUserData[index]
                                                 .data()['preSpeed'],
-                                            // name: userCube
-                                            //     .infractionsUserData![index]
-                                            //     .data()['name'],
-                                            // carNumber: userCube
-                                            //     .infractionsUserData![index]
-                                            //     .data()['carNumber'],
-                                            // nationalId: userCube
-                                            //     .infractionsUserData![index]
-                                            //     .data()['nationalID'],
                                             price: userCube
                                                 .infractionsUserData[index]
                                                 .data()['price'],
@@ -195,11 +209,5 @@ class _UserProfileState extends State<UserProfile> {
             );
           }),
     );
-  }
-
-  Future<void> pickImageFromGallery() async {
-    final File imgFile = await ImagePicker.platform
-        .pickImage(source: ImageSource.gallery) as File;
-    setState(() => imageFile = imgFile);
   }
 }

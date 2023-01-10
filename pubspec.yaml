@@ -56,8 +56,7 @@ dependencies:
   #offline
   flutter_offline: ^2.1.0
   conditional_builder_null_safety: ^0.0.6
-  #fonts
-  #  google_fonts_arabic: ^1.1.7
+
   #sign_in_with_google
   google_sign_in: ^5.4.2
 
@@ -81,6 +80,7 @@ dependencies:
   font_awesome_flutter: ^10.3.0
   status_alert: ^1.0.0
   credit_card_input_form: ^2.3.0
+  firebase_storage: ^11.0.10
 
 
 dev_dependencies:

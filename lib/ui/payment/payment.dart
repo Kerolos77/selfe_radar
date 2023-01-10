@@ -19,7 +19,7 @@ class _PaymentState extends State<Payment> {
 
   @override
   Widget build(BuildContext context) {
-    bool cardFlag = CacheHelper.getData(key: 'cardNumber') == '';
+    bool cardFlag = (CacheHelper.getData(key: 'cardNumber') ?? '') == '';
     final buttonStyle = BoxDecoration(
       borderRadius: BorderRadius.circular(30.0),
       gradient: const LinearGradient(
@@ -68,8 +68,6 @@ class _PaymentState extends State<Payment> {
                 : '${CacheHelper.getData(key: 'cardMonth')}/${CacheHelper.getData(key: 'cardYear')}',
             cardCVV: cardFlag ? '' : '${CacheHelper.getData(key: 'cardCvv')}',
             onStateChange: (currentState, cardInfo) {
-              print(currentState);
-
               if (currentState == InputState.DONE) {
                 setPayment(
                   cardNumber: cardInfo.getCardNumber(),
