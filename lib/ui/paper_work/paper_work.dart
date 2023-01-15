@@ -23,7 +23,6 @@ class _PaperWorkState extends State<PaperWork> {
   late Future<PickedFile?> pickedFileCarNumber = Future.value(null);
   late Future<PickedFile?> pickedFileDrivingLicense = Future.value(null);
   final FirebaseStorage _storage = FirebaseStorage.instance;
-
   bool loadNationalID = false;
   bool loadCarNumber = false;
   bool loadDrivingLicense = false;

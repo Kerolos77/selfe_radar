@@ -31,7 +31,7 @@ class _MapScreenState extends State<MapScreen> {
   @override
   Widget build(BuildContext context) {
     MapCubit mapCub = MapCubit.get(context);
-    int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 30;
+    int endTime = DateTime.now().millisecondsSinceEpoch + 1000 * 20;
     controller = CountdownTimerController(
       endTime: endTime,
       onEnd: () {

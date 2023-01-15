@@ -14,6 +14,7 @@ Widget alertFunction({
   carNumber = "",
   name = "",
   nationalId = "",
+  bool delete = false,
   required docID,
   required currentSpeed,
   required preSpeed,
@@ -32,12 +33,12 @@ Widget alertFunction({
         children: [
           name != "" && carNumber != ""
               ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    alertUnit(name.toString()),
-                    alertUnit(carNumber.toString()),
-                  ],
-                )
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              alertUnit(name.toString()),
+              alertUnit(carNumber.toString()),
+            ],
+          )
               : const SizedBox(),
           nationalId != ""
               ? alertUnit(nationalId.toString())
@@ -61,6 +62,19 @@ Widget alertFunction({
                 size: 15.0.sp,
                 color: Colors.green,
               ),
+              delete
+                  ? ElevatedButton(
+                onPressed: () {
+                  deleteAlertFunction(docID: docID);
+                },
+                child: const Text(
+                  'Delete',
+                ),
+              )
+                  : const SizedBox(
+                width: 0,
+                height: 0,
+              ),
               IconButton(
                   onPressed: () {
                     showAlertDialog(context, price, docID);
@@ -69,7 +83,8 @@ Widget alertFunction({
                     FontAwesomeIcons.amazonPay,
                     size: 30.0.sp,
                     color: Colors.green,
-                  ))
+                  )),
+
             ],
           ),
         ],
@@ -93,11 +108,9 @@ Widget alertUnit(text, {double size = 15.0, Color? color}) {
   );
 }
 
-showAlertDialog(
-  BuildContext context,
-  String price,
-  String docID,
-) {
+showAlertDialog(BuildContext context,
+    String price,
+    String docID,) {
   // set up the buttons
   bool cardFlag = CacheHelper.getData(key: 'cardNumber') == '';
 

@@ -199,8 +199,7 @@ class _SignUpState extends State<SignUp> {
                               },
                               onchange: (value) {
                                 if (!value.isEmpty &&
-                                    value.toString().length >= 8 &&
-                                    value == confirmPasswordControl.text) {
+                                    value.toString().length >= 8) {
                                   registrationCub.changePassNumCharFlag(true);
                                 } else {
                                   registrationCub.changePassNumCharFlag(false);

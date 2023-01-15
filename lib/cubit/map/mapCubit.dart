@@ -75,15 +75,16 @@ class MapCubit extends Cubit<MapState> {
           currentLocation.speed == null
               ? 0
               : ((currentLocation.speed != null &&
-                      currentLocation.speed! * (3600 / 1000) > 0)
-                  ? currentLocation.speed! * (3600 / 1000)
-                  : 0));
+              currentLocation.speed! * (3600 / 1000) > 0)
+              ? currentLocation.speed! * (3600 / 1000)
+              : 0));
       getAddress(
-              lat: currentLocation.latitude!, lng: currentLocation.longitude!)
+          lat: currentLocation.latitude!, lng: currentLocation.longitude!)
           .then((value) {
         streetNumber = value.streetNumber!;
         address =
-            "${value.streetAddress} , ${value.city} , ${value.region} , ${value.countryName}, ${value.postal}";
+        "${value.streetAddress} , ${value.city} , ${value.region} , ${value
+            .countryName}, ${value.postal}";
       }).catchError((e) {
         debugPrint("++++++++++++++++++++++++ ${e.toString()}");
       });
@@ -92,7 +93,7 @@ class MapCubit extends Cubit<MapState> {
           lat: lat.latitude,
           lng: lat.longitude,
           speed: ((currentLocation.speed != null &&
-                  currentLocation.speed! * (3600 / 1000) > 0)
+              currentLocation.speed! * (3600 / 1000) > 0)
               ? currentLocation.speed! * (3600 / 1000)
               : 0));
       emit(GetMyLocationMapState());
@@ -116,10 +117,10 @@ class MapCubit extends Cubit<MapState> {
         id: 0,
         title: "Infraction",
         body:
-            """Speed: ${speedMps.toStringAsFixed(0)} \n price : 100 """).then(
-        (value) {
-      emit(SuccessSendNotificationMapState());
-    }).catchError((onError) {
+        """Speed: ${speedMps.toStringAsFixed(0)} \n price : 100 """).then(
+            (value) {
+          emit(SuccessSendNotificationMapState());
+        }).catchError((onError) {
       emit(ErrorSendNotificationMapState(onError.toString()));
     });
   }
@@ -158,6 +159,11 @@ class MapCubit extends Cubit<MapState> {
   }
 
   void updatePreSpeedByStreetNumber(int streetNumber) {
-    preSpeed = streetNumber + 50.0;
+    //preSpeed = streetNumber + 50.0;
+    switch (streetNumber) {
+      case 18 :
+        preSpeed = 0;
+        break;
+    }
   }
 }

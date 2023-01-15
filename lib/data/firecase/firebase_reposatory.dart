@@ -28,16 +28,7 @@ class FirebaseReposatory {
     required String carNumber,
   }) async {
     UserDataModel userDataModel = UserDataModel(
-        name,
-        email,
-        id,
-        false,
-        password,
-        0,
-        0,
-        0,
-        nationalID,
-        carNumber);
+        name, email, id, false, password, 0, 0, 0, nationalID, carNumber);
     return firebase.collection('users').doc(id).set(userDataModel.toMap());
   }
 
@@ -134,7 +125,7 @@ class FirebaseReposatory {
         .orderBy("history", descending: true)
         .get();
     d.then((value) {
-      value.docs[0].data()['preSpeed'];
+      // value.docs[0].data()['preSpeed'];
     });
     return firebase
         .collection('Infraction')
@@ -145,7 +136,9 @@ class FirebaseReposatory {
   }
 
   Future<QuerySnapshot<Map<String, dynamic>>> getAdminInfractionsData() {
-    return firebase.collection('Infraction').get();
+    return firebase
+        .collection('Infraction')
+        .orderBy("history", descending: true)
+        .get();
   }
-
 }
