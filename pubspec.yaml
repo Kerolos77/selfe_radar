@@ -64,7 +64,7 @@ dependencies:
   google_maps_flutter: ^2.1.6
   #geolocator
   location: ^4.4.0
-  geolocator: ^9.0.2
+  #  geolocator: ^9.0.2
 
   rive: ^0.9.1
   flutter_svg: ^1.1.6
@@ -74,13 +74,13 @@ dependencies:
   intl: ^0.17.0
   pull_to_refresh: ^2.0.0
   double_back_to_close_app: ^2.1.0
-  geocode: ^1.0.2
   flutter_countdown_timer: ^4.1.0
   credit_card_type_detector: ^2.0.0
   font_awesome_flutter: ^10.3.0
   status_alert: ^1.0.0
   credit_card_input_form: ^2.3.0
   firebase_storage: ^11.0.10
+  geocode: ^1.0.2
 
 
 dev_dependencies:

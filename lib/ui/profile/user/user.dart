@@ -27,15 +27,22 @@ class _UserProfileState extends State<UserProfile> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => UserCubit(),
+      create: (BuildContext context) => UserCubit()
+        ..getUserInfractionsData()
+        ..getUserData(),
       child: BlocConsumer<UserCubit, UserStates>(
-          listener: (BuildContext context, UserStates state) {},
-          builder: (BuildContext context, UserStates state) {
-            UserCubit userCube = UserCubit.get(context);
-            userCube.user ?? userCube.getUserData();
-            userCube.getUserInfractionsData();
+          listener: (BuildContext context, UserStates state) {
+        print('-------------------------------------------------$state');
+      }, builder: (BuildContext context, UserStates state) {
+        UserCubit userCube = UserCubit.get(context);
+        // userCube.user ?? userCube.getUserData();
+        // userCube.getUserInfractionsData();
 
-            return ConditionalBuilder(
+        return RefreshIndicator(
+            onRefresh: () async {
+              userCube.getUserInfractionsData();
+            },
+            child: ConditionalBuilder(
               condition: userCube.user != null,
               builder: (context) => Scaffold(
                 backgroundColor: Colors.white,
@@ -206,8 +213,8 @@ class _UserProfileState extends State<UserProfile> {
                 color: Colors.white,
                 child: const CircularProgressIndicator(),
               ),
-            );
-          }),
+            ));
+      }),
     );
   }
 }

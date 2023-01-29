@@ -18,7 +18,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   var screens = [
     BlocProvider(
-      create: (BuildContext context) => MapCubit(),
+      create: (BuildContext context) => MapCubit()..getMyLocation(),
       child: const MapScreen(),
     ),
     const UserProfile(),
@@ -28,25 +28,44 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                screenIndex = 1;
-              });
-            },
-            icon: const Icon(FontAwesomeIcons.user),
+      // appBar: AppBar(
+      //   actions: [
+      //     IconButton(
+      //       onPressed: () {
+      //         setState(() {
+      //           screenIndex = 1;
+      //         });
+      //       },
+      //       icon: const Icon(FontAwesomeIcons.user),
+      //     ),
+      //   ],
+      //   leading: IconButton(
+      //     onPressed: () {
+      //       setState(() {
+      //         screenIndex = 0;
+      //       });
+      //     },
+      //     icon: const Icon(FontAwesomeIcons.map),
+      //   ),
+      // ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(FontAwesomeIcons.map), label: 'Map'),
+          BottomNavigationBarItem(
+            icon: Icon(FontAwesomeIcons.user),
+            label: 'Me',
           ),
         ],
-        leading: IconButton(
-          onPressed: () {
-            setState(() {
-              screenIndex = 0;
-            });
-          },
-          icon: const Icon(FontAwesomeIcons.map),
-        ),
+        currentIndex: screenIndex,
+        selectedItemColor: Colors.grey,
+        unselectedItemColor: Colors.black,
+        onTap: (value) {
+          setState(() {
+            screenIndex = value;
+          });
+        },
+        elevation: 0,
       ),
       body: DoubleBackToCloseApp(
         snackBar: const SnackBar(

@@ -112,21 +112,14 @@ class MapCubit extends Cubit<MapState> {
   }
 
   void sendNotification() {
-    emit(LoadingSendNotificationMapState());
     services.showNotification(
         id: 0,
         title: "Infraction",
         body:
-        """Speed: ${speedMps.toStringAsFixed(0)} \n price : 100 """).then(
-            (value) {
-          emit(SuccessSendNotificationMapState());
-        }).catchError((onError) {
-      emit(ErrorSendNotificationMapState(onError.toString()));
-    });
+        """Speed: ${speedMps.toStringAsFixed(0)} \n price : 100 """);
   }
 
   void createAlert(BuildContext context) {
-    emit(LoadingCreateAlertMapState());
     FirebaseFirestore.instance
         .collection('users')
         .doc(constUid)
@@ -142,19 +135,15 @@ class MapCubit extends Cubit<MapState> {
         carNumber: "${value.data()!['carNumber']}",
         price: "100 LE",
         address: address,
-      )
-          .then((value) {
-        emit(SuccessCreateAlertMapState());
-      }).catchError((onError) {
-        emit(ErrorCreateAlertMapState(onError.toString()));
-      });
+      );
     });
   }
 
   Future<Address> getAddress({
     required double lat,
     required double lng,
-  }) {
+  }) async {
+    await Future.delayed(const Duration(seconds: 2));
     return geoCode.reverseGeocoding(latitude: lat, longitude: lng);
   }
 

@@ -21,7 +21,7 @@ class UserCubit extends Cubit<UserStates> {
   final FirebaseReposatory _firebaseReposatory = FirebaseReposatory();
 
   void getUserData() {
-    emit(GetUserLoadingState());
+    // emit(GetUserLoadingState());
     _firebaseReposatory.getUserData().then((value) {
       user = value.data() as Map<String, dynamic>;
       emit(GetUserSuccessState());
@@ -31,12 +31,12 @@ class UserCubit extends Cubit<UserStates> {
   }
 
   void getUserInfractionsData() {
-    emit(GetUserLoadingState());
+    // emit(GetUserLoadingState());
     _firebaseReposatory.getUserInfractionsData().then((querySnapshot) {
       infractionsUserData = querySnapshot.docs;
-      emit(GetUserSuccessState());
+      emit(GetInfractionSuccessState());
     }).catchError((error) {
-      emit(GetUserErrorState(error.toString()));
+      emit(GetInfractionErrorState(error.toString()));
     });
   }
 
@@ -62,5 +62,4 @@ class UserCubit extends Cubit<UserStates> {
     obscureConfirmFlag = flag;
     emit(ChangeObscureConfirmFlagUserState());
   }
-
 }

@@ -52,7 +52,6 @@ class _PaymentState extends State<Payment> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: CreditCardInputForm(
-            cardHeight: 170,
             showResetButton: true,
             backCardDecoration: cardDecoration,
             frontCardDecoration: cardDecoration,
