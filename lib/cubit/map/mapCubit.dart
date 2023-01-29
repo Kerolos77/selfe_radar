@@ -131,6 +131,7 @@ class MapCubit extends Cubit<MapState> {
         id: '$constUid',
         nationalID: '${value.data()!['nationalID']}',
         currentSpeed: speedMps.toStringAsFixed(0),
+
         preSpeed: preSpeed.toStringAsFixed(0),
         carNumber: "${value.data()!['carNumber']}",
         price: "100 LE",
