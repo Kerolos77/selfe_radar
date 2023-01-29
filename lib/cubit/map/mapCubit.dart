@@ -148,11 +148,11 @@ class MapCubit extends Cubit<MapState> {
   }
 
   void updatePreSpeedByStreetNumber(int streetNumber) {
-    //preSpeed = streetNumber + 50.0;
-    switch (streetNumber) {
-      case 18 :
-        preSpeed = 0;
-        break;
-    }
+    preSpeed = 60.0;
+    // switch (streetNumber) {
+    //   case 18 :
+    //     preSpeed = 0;
+    //     break;
+    // }
   }
 }
